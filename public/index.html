@@ -44,6 +44,8 @@
               <span class="status ${item.status.startsWith('✅') ? 'online' : item.status.startsWith('❌') ? 'offline' : 'loading'}">
                 ${item.status}
               </span>
+              <small>⏱ Last Checked: ${item.lastChecked || "N/A"}</small>
+              <small>⚡ Response Time: ${item.responseTime || "N/A"} ms</small>
             </div>
             <button class="remove-btn" onclick="removeURL('${item.url}')">🗑 Remove</button>
           `;
