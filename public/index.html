@@ -109,11 +109,11 @@
 
           li.innerHTML = `
             <div class="card-header" onclick="this.nextElementSibling.classList.toggle('collapsed')">
-              ${item.img ? `<img src="${item.img}" alt="Logo" class="card-logo">` : ''}<strong>${item.name || item.url}</strong>
+              <strong>${item.name || item.url}</strong>
               <span class="toggle-btn">▼</span>
             </div>
             <div class="card-body collapsed">
-              <p><span class="status ${item.status.startsWith('✅') ? 'online' : item.status.startsWith('❌') ? 'offline' : 'loading'}">
+              <p><span class="status ${item.status.startsWith('✅') ? 'online' : 'offline'}">
               ${item.status}</span></p>
               <p>⏱ Last Checked: ${item.lastChecked || 'N/A'}</p>
               <p>⚡ Response Time: ${item.responseTime != null ? item.responseTime + ' ms' : 'N/A'}</p>
@@ -129,12 +129,11 @@
       const url = document.getElementById('urlInput').value.trim();
       if (!url) return alert('Enter a URL');
       const name = prompt('Enter a title/name for this link') || url;
-      const img = prompt('Optional: Enter Imgur image link for this website') || '';
 
       await fetch('/add', {
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({url,name,img})
+        body: JSON.stringify({url,name})
       });
       document.getElementById('urlInput').value='';
       fetchStatus();
