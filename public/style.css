@@ -93,6 +93,12 @@ main {
   font-size: 1.1rem;
 }
 
+.url-info small {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 3px;
+}
+
 .status {
   margin-top: 5px;
   font-size: 0.95rem;
