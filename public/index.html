@@ -45,7 +45,7 @@
                 ${item.status}
               </span>
               <small>⏱ Last Checked: ${item.lastChecked || "N/A"}</small>
-              <small>⚡ Response Time: ${item.responseTime || "N/A"} ms</small>
+              <small>⚡ Response Time: ${item.responseTime != null ? item.responseTime + ' ms' : 'N/A'}</small>
             </div>
             <button class="remove-btn" onclick="removeURL('${item.url}')">🗑 Remove</button>
           `;
