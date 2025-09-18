@@ -26,7 +26,7 @@ async function pingUrls() {
   }
 }
 pingUrls();
-setInterval(pingUrls, 5*60*1000);
+setInterval(pingUrls, 60 * 1000);
 
 // Routes
 app.get('/status', (req, res) => {
