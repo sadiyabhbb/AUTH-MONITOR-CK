@@ -10,13 +10,14 @@ body {
 header {
   background: linear-gradient(135deg, #4CAF50, #2e7d32);
   color: white;
-  padding: 20px;
+  padding: 25px 20px;
   text-align: center;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
 }
 
 header h1 {
   margin: 0;
-  font-size: 2.5rem;
+  font-size: 2.8rem;
 }
 
 header p {
@@ -27,7 +28,7 @@ header p {
 
 main {
   max-width: 900px;
-  margin: 20px auto;
+  margin: 25px auto;
   padding: 0 15px;
 }
 
@@ -35,15 +36,16 @@ main {
 .control-panel {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .control-panel input {
   flex: 1;
-  padding: 10px;
+  padding: 12px;
   border: 2px solid #4CAF50;
   border-radius: 6px 0 0 6px;
   outline: none;
+  font-size: 1rem;
 }
 
 .control-panel button {
@@ -51,14 +53,16 @@ main {
   border: none;
   color: white;
   font-weight: bold;
-  padding: 10px 20px;
+  padding: 12px 25px;
   border-radius: 0 6px 6px 0;
   cursor: pointer;
-  transition: background 0.3s;
+  font-size: 1rem;
+  transition: background 0.3s, transform 0.2s;
 }
 
 .control-panel button:hover {
   background: #388e3c;
+  transform: scale(1.05);
 }
 
 /* Cards */
@@ -69,19 +73,19 @@ main {
 
 .card {
   background: #fff;
-  margin: 10px 0;
-  padding: 15px 20px;
-  border-radius: 10px;
+  margin: 12px 0;
+  padding: 18px 22px;
+  border-radius: 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
 }
 
 .url-info {
@@ -90,18 +94,18 @@ main {
 }
 
 .url-info strong {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
 }
 
 .url-info small {
   font-size: 0.85rem;
-  color: #666;
+  color: #555;
   margin-top: 3px;
 }
 
 .status {
   margin-top: 5px;
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: bold;
 }
 
@@ -114,21 +118,24 @@ main {
   background: #e53935;
   border: none;
   color: white;
-  padding: 8px 12px;
-  border-radius: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s;
+  font-weight: bold;
+  transition: background 0.3s, transform 0.2s;
 }
 
 .remove-btn:hover {
   background: #b71c1c;
+  transform: scale(1.05);
 }
 
 footer {
   text-align: center;
-  padding: 15px;
+  padding: 18px;
   background: #f0f0f0;
   font-size: 0.9rem;
   color: #666;
   margin-top: 30px;
+  border-top: 1px solid #ddd;
 }
