@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Uptime Monitor Dashboard</title>
   <link rel="stylesheet" href="style.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
   <canvas id="waterCanvas"></canvas>
@@ -109,7 +109,7 @@
 
           li.innerHTML = `
             <div class="card-header" onclick="this.nextElementSibling.classList.toggle('collapsed')">
-              <strong>${item.name || item.url}</strong>
+              ${item.img ? `<img src="${item.img}" alt="Logo" class="card-logo">` : ''}<strong>${item.name || item.url}</strong>
               <span class="toggle-btn">▼</span>
             </div>
             <div class="card-body collapsed">
@@ -129,11 +129,12 @@
       const url = document.getElementById('urlInput').value.trim();
       if (!url) return alert('Enter a URL');
       const name = prompt('Enter a title/name for this link') || url;
+      const img = prompt('Optional: Enter Imgur image link for this website') || '';
 
       await fetch('/add', {
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({url,name})
+        body: JSON.stringify({url,name,img})
       });
       document.getElementById('urlInput').value='';
       fetchStatus();
