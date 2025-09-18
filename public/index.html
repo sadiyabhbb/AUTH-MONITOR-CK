@@ -15,6 +15,7 @@
   <main>
     <section class="control-panel">
       <input type="text" id="urlInput" placeholder="https://example.com" />
+      <input type="text" id="nameInput" placeholder="Custom Name / Title" />
       <button onclick="addURL()">➕ Add</button>
     </section>
 
@@ -35,19 +36,23 @@
         const data = await res.json();
         const list = document.getElementById('urlList');
         list.innerHTML = '';
+
         data.forEach(item => {
           const li = document.createElement('li');
           li.className = "card";
+
           li.innerHTML = `
-            <div class="url-info">
-              <strong>${item.url}</strong>
-              <span class="status ${item.status.startsWith('✅') ? 'online' : item.status.startsWith('❌') ? 'offline' : 'loading'}">
-                ${item.status}
-              </span>
-              <small>⏱ Last Checked: ${item.lastChecked || "N/A"}</small>
-              <small>⚡ Response Time: ${item.responseTime != null ? item.responseTime + ' ms' : 'N/A'}</small>
+            <div class="card-header" onclick="this.nextElementSibling.classList.toggle('collapsed')">
+              <strong>${item.name || item.url}</strong>
+              <span class="toggle-btn">▼</span>
             </div>
-            <button class="remove-btn" onclick="removeURL('${item.url}')">🗑 Remove</button>
+            <div class="card-body collapsed">
+              <p><span class="status ${item.status.startsWith('✅') ? 'online' : item.status.startsWith('❌') ? 'offline' : 'loading'}">
+              ${item.status}</span></p>
+              <p>⏱ Last Checked: ${item.lastChecked || 'N/A'}</p>
+              <p>⚡ Response Time: ${item.responseTime != null ? item.responseTime + ' ms' : 'N/A'}</p>
+              <button class="remove-btn" onclick="removeURL('${item.url}')">🗑 Remove</button>
+            </div>
           `;
           list.appendChild(li);
         });
@@ -58,13 +63,17 @@
 
     async function addURL() {
       const url = document.getElementById('urlInput').value.trim();
+      const name = document.getElementById('nameInput').value.trim();
       if (!url) return alert('Enter a URL');
+
       await fetch('/add', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url })
+        body: JSON.stringify({ url, name })
       });
+
       document.getElementById('urlInput').value = '';
+      document.getElementById('nameInput').value = '';
       fetchStatus();
     }
 
@@ -77,7 +86,6 @@
       fetchStatus();
     }
 
-    // Load immediately & refresh every 1 min
     fetchStatus();
     setInterval(fetchStatus, 60 * 1000);
   </script>
