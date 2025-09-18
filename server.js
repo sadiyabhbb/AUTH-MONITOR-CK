@@ -19,7 +19,7 @@ async function pingUrls() {
       const end = Date.now();
 
       urlObj.responseTime = end - start;
-      urlObj.lastChecked = new Date().toLocaleString();
+      urlObj.lastChecked = new Date().toLocaleString("en-BD", { timeZone: "Asia/Dhaka" });
 
       if (response.ok) {
         urlObj.status = "✅ Online";
