@@ -1,141 +1,74 @@
-/* General Layout */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0;
-  padding: 0;
-  background: #f4f6f9;
-  color: #333;
+  margin: 0; padding: 0;
+  background: #f4f6f9; color: #333;
 }
 
 header {
   background: linear-gradient(135deg, #4CAF50, #2e7d32);
-  color: white;
-  padding: 25px 20px;
-  text-align: center;
+  color: white; padding: 25px 20px; text-align: center;
   box-shadow: 0 3px 6px rgba(0,0,0,0.1);
 }
 
-header h1 {
-  margin: 0;
-  font-size: 2.8rem;
-}
+header h1 { margin: 0; font-size: 2.8rem; }
+header p { margin: 5px 0 0; font-size: 1rem; opacity: 0.9; }
 
-header p {
-  margin: 5px 0 0;
-  font-size: 1rem;
-  opacity: 0.9;
-}
+main { max-width: 900px; margin: 25px auto; padding: 0 15px; }
 
-main {
-  max-width: 900px;
-  margin: 25px auto;
-  padding: 0 15px;
-}
-
-/* Control Panel */
 .control-panel {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 25px;
+  display: flex; justify-content: center; margin-bottom: 25px;
 }
 
 .control-panel input {
-  flex: 1;
-  padding: 12px;
-  border: 2px solid #4CAF50;
-  border-radius: 6px 0 0 6px;
-  outline: none;
-  font-size: 1rem;
+  flex: 1; padding: 12px; border: 2px solid #4CAF50;
+  outline: none; font-size: 1rem; border-radius: 6px 0 0 6px;
+  margin-right: 5px;
 }
 
 .control-panel button {
-  background: #4CAF50;
-  border: none;
-  color: white;
-  font-weight: bold;
-  padding: 12px 25px;
-  border-radius: 0 6px 6px 0;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background 0.3s, transform 0.2s;
+  background: #4CAF50; border: none; color: white;
+  padding: 12px 20px; font-weight: bold; border-radius: 0 6px 6px 0;
+  cursor: pointer; font-size: 1rem; transition: background 0.3s, transform 0.2s;
 }
 
-.control-panel button:hover {
-  background: #388e3c;
-  transform: scale(1.05);
-}
+.control-panel button:hover { background: #388e3c; transform: scale(1.05); }
 
-/* Cards */
-.card-list {
-  list-style: none;
-  padding: 0;
-}
-
-.card {
-  background: #fff;
-  margin: 12px 0;
-  padding: 18px 22px;
-  border-radius: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+/* Card List */
+.card-list { list-style: none; padding: 0; }
+.card { background: #fff; margin: 12px 0; border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08); overflow: hidden; 
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+.card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
+
+/* Card Header */
+.card-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 15px 20px; cursor: pointer; background: #f0f0f0; font-weight: bold;
 }
 
-.url-info {
-  display: flex;
-  flex-direction: column;
-}
+.card-header .toggle-btn { font-size: 0.9rem; }
 
-.url-info strong {
-  font-size: 1.2rem;
-}
+/* Card Body */
+.card-body { padding: 15px 20px; transition: max-height 0.3s ease; }
+.card-body.collapsed { display: none; }
 
-.url-info small {
-  font-size: 0.85rem;
-  color: #555;
-  margin-top: 3px;
-}
+.url-info small { font-size: 0.85rem; color: #555; margin-top: 3px; }
 
-.status {
-  margin-top: 5px;
-  font-size: 1rem;
-  font-weight: bold;
-}
-
+.status { font-weight: bold; margin-bottom: 5px; }
 .status.online { color: #2e7d32; }
 .status.offline { color: #c62828; }
 .status.loading { color: #f9a825; }
 
-/* Remove Button */
 .remove-btn {
-  background: #e53935;
-  border: none;
-  color: white;
-  padding: 8px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
+  background: #e53935; border: none; color: white;
+  padding: 8px 14px; border-radius: 8px; cursor: pointer; font-weight: bold;
   transition: background 0.3s, transform 0.2s;
 }
 
-.remove-btn:hover {
-  background: #b71c1c;
-  transform: scale(1.05);
-}
+.remove-btn:hover { background: #b71c1c; transform: scale(1.05); }
 
-footer {
-  text-align: center;
-  padding: 18px;
-  background: #f0f0f0;
-  font-size: 0.9rem;
-  color: #666;
-  margin-top: 30px;
-  border-top: 1px solid #ddd;
+footer { text-align: center; padding: 18px; background: #f0f0f0;
+  font-size: 0.9rem; color: #666; margin-top: 30px; border-top: 1px solid #ddd;
 }
