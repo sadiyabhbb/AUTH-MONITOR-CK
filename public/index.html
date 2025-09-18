@@ -113,10 +113,15 @@
               <span class="toggle-btn">▼</span>
             </div>
             <div class="card-body collapsed">
-              <p><span class="status ${item.status.startsWith('✅') ? 'online' : 'offline'}">
+              <p><strong>URL:</strong> ${item.url}</p>
+              <p><strong>Name:</strong> ${item.name || item.url}</p>
+              <p><strong>Status:</strong> <span class="status ${item.status.startsWith('✅') ? 'online' : 'offline'}">
               ${item.status}</span></p>
-              <p>⏱ Last Checked: ${item.lastChecked || 'N/A'}</p>
-              <p>⚡ Response Time: ${item.responseTime != null ? item.responseTime + ' ms' : 'N/A'}</p>
+              <p><strong>Response Time:</strong> ${item.responseTime != null ? item.responseTime + ' ms' : 'N/A'}</p>
+              <p><strong>Last Checked:</strong> ${item.lastChecked || 'N/A'}</p>
+              <p><strong>Added:</strong> ${new Date(item.addedTime).toLocaleString("en-US",{timeZone:"Asia/Dhaka"})}</p>
+              <p><strong>Uptime:</strong> ${item.uptime}</p>
+              <p><strong>Author:</strong> ${item.author || 'AHMED'}</p>
               <button class="remove-btn" onclick="removeURL('${item.url}')">🗑 Remove</button>
             </div>
           `;
