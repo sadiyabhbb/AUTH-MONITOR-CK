@@ -15,7 +15,6 @@
   <main>
     <section class="control-panel">
       <input type="text" id="urlInput" placeholder="https://example.com" />
-      <input type="text" id="nameInput" placeholder="Custom Name / Title" />
       <button onclick="addURL()">➕ Add</button>
     </section>
 
@@ -63,8 +62,10 @@
 
     async function addURL() {
       const url = document.getElementById('urlInput').value.trim();
-      const name = document.getElementById('nameInput').value.trim();
       if (!url) return alert('Enter a URL');
+
+      // Step 2: Prompt user for custom name/title
+      const name = prompt('Enter a title/name for this link') || url;
 
       await fetch('/add', {
         method: 'POST',
@@ -73,7 +74,6 @@
       });
 
       document.getElementById('urlInput').value = '';
-      document.getElementById('nameInput').value = '';
       fetchStatus();
     }
 
