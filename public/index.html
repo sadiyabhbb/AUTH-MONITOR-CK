@@ -5,14 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Uptime Monitor Dashboard</title>
   <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- Water effect canvas -->
+  <!-- Water + Particles background -->
   <canvas id="waterCanvas"></canvas>
 
   <header>
     <h1>🌐 Uptime Monitor</h1>
-    <p>Track the status of your websites in real time</p>
+    <p>Track your websites in real time</p>
   </header>
 
   <main>
@@ -33,14 +34,14 @@
 
   <script>
     // ===============================
-    // Water ripple effect
+    // Water ripple effect + particles
     const canvas = document.getElementById('waterCanvas');
     const ctx = canvas.getContext('2d');
     let width = canvas.width = window.innerWidth;
     let height = canvas.height = window.innerHeight;
+
     const waveCount = 5;
     const waves = [];
-
     for (let i = 0; i < waveCount; i++) {
       waves.push({
         y: height * Math.random(),
@@ -51,35 +52,55 @@
       });
     }
 
-    function drawWaves() {
+    const particles = [];
+    for (let i=0;i<100;i++){
+      particles.push({
+        x: Math.random()*width,
+        y: Math.random()*height,
+        r: 1 + Math.random()*2,
+        speedX: (Math.random()-0.5)*0.3,
+        speedY: (Math.random()-0.5)*0.3
+      });
+    }
+
+    function drawBackground(){
       ctx.clearRect(0,0,width,height);
+      // black base
       ctx.fillStyle = '#0d0d0d';
       ctx.fillRect(0,0,width,height);
 
+      // waves
       ctx.strokeStyle = 'rgba(33,150,243,0.3)';
       ctx.lineWidth = 2;
-
       waves.forEach(w => {
         ctx.beginPath();
-        for (let x = 0; x < width; x+=2) {
-          const y = w.y + Math.sin((x / w.wavelength) + w.phase) * w.amplitude;
-          if (x === 0) ctx.moveTo(x,y);
+        for(let x=0;x<width;x+=2){
+          const y = w.y + Math.sin((x/w.wavelength)+w.phase)*w.amplitude;
+          if(x===0) ctx.moveTo(x,y);
           else ctx.lineTo(x,y);
         }
         ctx.stroke();
         w.phase += w.speed;
       });
 
-      requestAnimationFrame(drawWaves);
+      // particles
+      ctx.fillStyle = 'rgba(33,150,243,0.3)';
+      particles.forEach(p=>{
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fill();
+        p.x += p.speedX;
+        p.y += p.speedY;
+        if(p.x<0)p.x=width;
+        if(p.x>width)p.x=0;
+        if(p.y<0)p.y=height;
+        if(p.y>height)p.y=0;
+      });
+
+      requestAnimationFrame(drawBackground);
     }
-
-    drawWaves();
-
-    window.addEventListener('resize', () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    });
-    // ===============================
+    drawBackground();
+    window.addEventListener('resize',()=>{width=canvas.width=window.innerWidth;height=canvas.height=window.innerHeight;});
 
     // ===============================
     // Uptime monitor logic
@@ -109,40 +130,34 @@
           `;
           list.appendChild(li);
         });
-      } catch (err) {
-        console.error(err);
-      }
+      } catch (err) { console.error(err); }
     }
 
     async function addURL() {
       const url = document.getElementById('urlInput').value.trim();
       if (!url) return alert('Enter a URL');
-
-      // Step 2: Prompt user for custom name/title
       const name = prompt('Enter a title/name for this link') || url;
 
       await fetch('/add', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url, name })
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({url,name})
       });
-
-      document.getElementById('urlInput').value = '';
+      document.getElementById('urlInput').value='';
       fetchStatus();
     }
 
-    async function removeURL(url) {
-      await fetch('/remove', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url })
+    async function removeURL(url){
+      await fetch('/remove',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({url})
       });
       fetchStatus();
     }
 
     fetchStatus();
-    setInterval(fetchStatus, 60 * 1000);
-    // ===============================
+    setInterval(fetchStatus,60*1000);
   </script>
 </body>
 </html>
