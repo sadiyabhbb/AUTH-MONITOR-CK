@@ -8,15 +8,17 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 const urlsFile = path.join(__dirname, "urls.json");
-let urls = JSON.parse(fs.readFileSync(urlsFile));
+let urls = JSON.parse(fs.readFileSync(urlsFile, "utf-8"));
 
-// Function to save URLs
+// Save URLs to file
 function saveUrls() {
-    fs.writeFileSync(urlsFile, JSON.stringify(urls, null, 2));
+    fs.writeFileSync(urlsFile, JSON.stringify(urls, null, 2), "utf-8");
 }
 
-// Ping all URLs every 5 minutes
+// Status map
 const statusMap = {};
+
+// Ping function
 async function pingUrls() {
     for (let url of urls) {
         try {
@@ -28,9 +30,9 @@ async function pingUrls() {
     }
 }
 pingUrls();
-setInterval(pingUrls, 5 * 60 * 1000); // 5 min interval
+setInterval(pingUrls, 5 * 60 * 1000); // every 5 minutes
 
-// API to add new URL
+// Add new URL endpoint
 app.post("/add", (req, res) => {
     const { url } = req.body;
     if (!url) return res.status(400).json({ error: "URL is required" });
@@ -42,35 +44,34 @@ app.post("/add", (req, res) => {
     res.json({ success: true, urls });
 });
 
-// Dashboard
+// Dashboard route
 app.get("/", (req, res) => {
-    let html = `
-    <html>
+    const html = `
+    <!DOCTYPE html>
+    <html lang="en">
     <head>
-        <title>Uptime Monitor</title>
-        <style>
-            body { font-family: Arial; background: #f4f4f9; padding: 20px; }
-            h1 { color: #333; }
-            ul { list-style: none; padding: 0; }
-            li { padding: 10px; margin: 5px 0; background: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);}
-            .online { color: green; font-weight: bold; }
-            .offline { color: red; font-weight: bold; }
-        </style>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Uptime Monitor Dashboard</title>
+      <link rel="stylesheet" href="style.css">
     </head>
     <body>
+      <div class="container">
         <h1>Uptime Monitor Dashboard</h1>
         <ul>
-            ${urls.map(url => {
-                const status = statusMap[url] || "⏳ Checking...";
-                const cls = status.startsWith("✅") ? "online" : "offline";
-                return `<li>${url} - <span class="${cls}">${status}</span></li>`;
-            }).join("")}
+          ${urls.map(url => {
+            const status = statusMap[url] || "⏳ Checking...";
+            const cls = status.startsWith("✅") ? "online" : status.startsWith("❌") ? "offline" : "loading";
+            return `<li>${url} - <span class="${cls}">${status}</span></li>`;
+          }).join("")}
         </ul>
+      </div>
     </body>
     </html>
     `;
     res.send(html);
 });
 
+// Start server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Uptime monitor running on port ${PORT}`));
