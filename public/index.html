@@ -8,7 +8,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- Water + Particles background -->
   <canvas id="waterCanvas"></canvas>
 
   <header>
@@ -33,8 +32,6 @@
   </footer>
 
   <script>
-    // ===============================
-    // Water ripple effect + particles
     const canvas = document.getElementById('waterCanvas');
     const ctx = canvas.getContext('2d');
     let width = canvas.width = window.innerWidth;
@@ -65,11 +62,9 @@
 
     function drawBackground(){
       ctx.clearRect(0,0,width,height);
-      // black base
       ctx.fillStyle = '#0d0d0d';
       ctx.fillRect(0,0,width,height);
 
-      // waves
       ctx.strokeStyle = 'rgba(33,150,243,0.3)';
       ctx.lineWidth = 2;
       waves.forEach(w => {
@@ -83,7 +78,6 @@
         w.phase += w.speed;
       });
 
-      // particles
       ctx.fillStyle = 'rgba(33,150,243,0.3)';
       particles.forEach(p=>{
         ctx.beginPath();
@@ -102,8 +96,6 @@
     drawBackground();
     window.addEventListener('resize',()=>{width=canvas.width=window.innerWidth;height=canvas.height=window.innerHeight;});
 
-    // ===============================
-    // Uptime monitor logic
     async function fetchStatus() {
       try {
         const res = await fetch('/status');
