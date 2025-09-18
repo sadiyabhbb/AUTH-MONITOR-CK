@@ -8,9 +8,10 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
+// URLs array: { url, name, status, responseTime, lastChecked }
 let urls = [];
 
-// Function to ping all URLs
+// Ping function
 async function pingUrls() {
   for (let urlObj of urls) {
     try {
@@ -26,27 +27,29 @@ async function pingUrls() {
       } else {
         urlObj.status = `❌ Error (${response.status})`;
       }
-    } catch (error) {
+    } catch (err) {
       urlObj.status = "❌ Down";
       urlObj.responseTime = null;
-      urlObj.lastChecked = new Date().toLocaleString();
+      urlObj.lastChecked = new Date().toLocaleString("en-BD", { timeZone: "Asia/Dhaka" });
     }
   }
 }
 
-// API: get status
+// API: Get all URLs with status
 app.get("/status", (req, res) => {
   res.json(urls);
 });
 
-// API: add URL
+// API: Add URL with optional name/title
 app.post("/add", (req, res) => {
-  const { url } = req.body;
+  const { url, name } = req.body;
   if (!url) return res.status(400).send("URL is required");
 
+  // Avoid duplicates
   if (!urls.find(u => u.url === url)) {
     urls.push({
       url,
+      name: name || url,
       status: "⏳ Checking...",
       responseTime: null,
       lastChecked: null
@@ -55,17 +58,21 @@ app.post("/add", (req, res) => {
   res.sendStatus(200);
 });
 
-// API: remove URL
+// API: Remove URL
 app.post("/remove", (req, res) => {
   const { url } = req.body;
   urls = urls.filter(u => u.url !== url);
   res.sendStatus(200);
 });
 
-// Ping every 1 min
+// Initial ping and interval ping every 1 minute
+pingUrls();
 setInterval(pingUrls, 60 * 1000);
+
+// Keep server alive ping
+app.get("/ping", (req, res) => res.send("OK"));
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`🚀 Uptime monitor running at http://localhost:${PORT}`);
 });
