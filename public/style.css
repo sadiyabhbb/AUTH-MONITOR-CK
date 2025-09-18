@@ -80,4 +80,17 @@ main{max-width:900px;margin:25px auto;padding:0 15px;}
 
 footer{text-align:center;padding:18px;background:#121212;font-size:0.9rem;color:#aaa;margin-top:30px;border-top:1px solid #333;}
 
-@media (max-width:600px
+@media (max-width:600px){
+  .control-panel{
+    flex-direction:column;
+  }
+  .control-panel input{
+    border-radius:6px;margin:0 0 10px 0;width:100%;
+  }
+  .control-panel button{
+    border-radius:6px;width:100%;
+  }
+  header h1{font-size:2rem;}
+  .card-header{font-size:1rem;padding:12px 15px;}
+  .card-body{padding:12px 15px;}
+}
