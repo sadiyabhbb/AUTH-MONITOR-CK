@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Uptime Monitor Dashboard</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      background: #fff;
+      margin: 10px 0;
+      padding: 15px 20px;
+      border-radius: 8px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 16px;
+    }
+
+    .online {
+      color: green;
+      font-weight: bold;
+    }
+
+    .offline {
+      color: red;
+      font-weight: bold;
+    }
+
+    .loading {
+      color: orange;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Uptime Monitor Dashboard</h1>
+    <ul id="urlList">
+      <!-- URLs will be dynamically populated -->
+    </ul>
+  </div>
+
+  <script>
+    async function fetchStatus() {
+      try {
+        const res = await fetch("/"); // Server sends JSON status map
+        const htmlText = await res.text();
+        document.getElementById("urlList").innerHTML = htmlText;
+      } catch (err) {
+        document.getElementById("urlList").innerHTML = "<li class='offline'>Failed to fetch URLs</li>";
+        console.error(err);
+      }
+    }
+
+    // Fetch every 1 min
+    fetchStatus();
+    setInterval(fetchStatus, 60 * 1000);
+  </script>
+</body>
+</html>
