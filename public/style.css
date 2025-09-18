@@ -3,17 +3,14 @@
 body {
   font-family: 'Roboto', sans-serif;
   margin: 0; padding: 0;
-  background: linear-gradient(270deg, #0d0d0d, #121212, #0d0d0d);
-  background-size: 600% 600%;
-  animation: gradientFlow 20s ease infinite;
   color: #e0e0e0;
+  overflow-x: hidden;
 }
 
-/* Animate background gradient for live effect */
-@keyframes gradientFlow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+canvas#waterCanvas {
+  position: fixed;
+  top: 0; left: 0;
+  z-index: -1;
 }
 
 header {
