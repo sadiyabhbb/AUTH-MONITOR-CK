@@ -1,69 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Uptime Monitor Dashboard</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Uptime Monitor Dashboard</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-<div class="container">
-  <h1>Uptime Monitor Dashboard</h1>
+  <header>
+    <h1>🌐 Uptime Monitor</h1>
+    <p>Track the status of your websites in real time</p>
+  </header>
 
-  <div class="add-form">
-    <input type="text" id="urlInput" placeholder="Enter URL">
-    <button onclick="addURL()">Add URL</button>
-  </div>
+  <main>
+    <section class="control-panel">
+      <input type="text" id="urlInput" placeholder="https://example.com" />
+      <button onclick="addURL()">➕ Add</button>
+    </section>
 
-  <ul id="urlList"></ul>
-</div>
+    <section>
+      <h2>Monitored Links</h2>
+      <ul id="urlList" class="card-list"></ul>
+    </section>
+  </main>
 
-<script>
-async function fetchStatus() {
-  try {
-    const res = await fetch('/status');
-    const data = await res.json();
-    const list = document.getElementById('urlList');
-    list.innerHTML = '';
-    data.forEach(item => {
-      const li = document.createElement('li');
-      li.innerHTML = `
-        <span class="${item.status.startsWith('✅') ? 'online' : item.status.startsWith('❌') ? 'offline' : 'loading'}">
-          ${item.url} - ${item.status}
-        </span>
-        <button onclick="removeURL('${item.url}')">Remove</button>
-      `;
-      list.appendChild(li);
-    });
-  } catch (err) {
-    console.error(err);
-  }
-}
+  <footer>
+    <p>⚡ Powered by Your Uptime Monitor</p>
+  </footer>
 
-async function addURL() {
-  const url = document.getElementById('urlInput').value.trim();
-  if (!url) return alert('Enter a URL');
-  await fetch('/add', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ url })
-  });
-  document.getElementById('urlInput').value = '';
-  fetchStatus();
-}
+  <script>
+    async function fetchStatus() {
+      try {
+        const res = await fetch('/status');
+        const data = await res.json();
+        const list = document.getElementById('urlList');
+        list.innerHTML = '';
+        data.forEach(item => {
+          const li = document.createElement('li');
+          li.className = "card";
+          li.innerHTML = `
+            <div class="url-info">
+              <strong>${item.url}</strong>
+              <span class="status ${item.status.startsWith('✅') ? 'online' : item.status.startsWith('❌') ? 'offline' : 'loading'}">
+                ${item.status}
+              </span>
+            </div>
+            <button class="remove-btn" onclick="removeURL('${item.url}')">🗑 Remove</button>
+          `;
+          list.appendChild(li);
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    }
 
-async function removeURL(url) {
-  await fetch('/remove', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ url })
-  });
-  fetchStatus();
-}
+    async function addURL() {
+      const url = document.getElementById('urlInput').value.trim();
+      if (!url) return alert('Enter a URL');
+      await fetch('/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url })
+      });
+      document.getElementById('urlInput').value = '';
+      fetchStatus();
+    }
 
-// auto refresh every minute
-fetchStatus();
-setInterval(fetchStatus, 60*1000);
-</script>
+    async function removeURL(url) {
+      await fetch('/remove', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url })
+      });
+      fetchStatus();
+    }
+
+    // Load immediately & refresh every 1 min
+    fetchStatus();
+    setInterval(fetchStatus, 60 * 1000);
+  </script>
 </body>
 </html>
