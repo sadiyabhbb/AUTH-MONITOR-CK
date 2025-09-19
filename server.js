@@ -34,7 +34,7 @@ async function pingURL(item) {
     const time = Date.now() - start;
 
     // calculate uptime duration
-    let uptime = 'N/A';
+    let uptime = "N/A";
     if (item.addedTime) {
       const durationMs = Date.now() - item.addedTime;
       const minutes = Math.floor(durationMs / 60000);
@@ -47,11 +47,11 @@ async function pingURL(item) {
       ...item,
       status: res.status >= 200 && res.status < 400 ? "✅ Online" : "❌ Down",
       responseTime: time,
-      lastChecked: new Date().toLocaleString("en-US", { timeZone: "Asia/Dhaka" }),
+      lastChecked: new Date().toLocaleString("en-GB", { timeZone: "Asia/Dhaka" }),
       uptime
     };
   } catch {
-    let uptime = 'N/A';
+    let uptime = "N/A";
     if (item.addedTime) {
       const durationMs = Date.now() - item.addedTime;
       const minutes = Math.floor(durationMs / 60000);
@@ -63,7 +63,7 @@ async function pingURL(item) {
       ...item,
       status: "❌ Down",
       responseTime: null,
-      lastChecked: new Date().toLocaleString("en-US", { timeZone: "Asia/Dhaka" }),
+      lastChecked: new Date().toLocaleString("en-GB", { timeZone: "Asia/Dhaka" }),
       uptime
     };
   }
@@ -102,4 +102,14 @@ app.post("/remove", (req, res) => {
 
 // Start server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
+// Anti-sleep self ping (every 1 minute)
+setInterval(async () => {
+  try {
+    await axios.get(`http://localhost:${PORT}/status`);
+    console.log("🔄 Self-ping successful (1m interval)...");
+  } catch (err) {
+    console.log("❌ Self-ping failed:", err.message);
+  }
+}, 60 * 1000); // প্রতি 1 মিনিটে নিজের server কে ping করবে
