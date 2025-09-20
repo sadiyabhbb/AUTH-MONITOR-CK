@@ -1,8 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
-*{
-  margin:0; padding:0; box-sizing:border-box; font-family:"Poppins",sans-serif;
-}
+*{margin:0; padding:0; box-sizing:border-box; font-family:"Poppins",sans-serif;}
 
 body{
   min-height:100vh;
@@ -12,45 +10,24 @@ body{
   background: linear-gradient(135deg,#4e54c8,#8f94fb);
 }
 
-.container{
-  position: relative;
-  width: 100%;
-  max-width: 900px;
-  height: 100vh;
-  display: flex;
-  overflow: hidden;
-}
-
-/* Form Boxes */
-.form-box{
-  width: 50%;
+.form-container{
   background:#fff;
-  padding: 40px;
-  display:flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transition: all 0.6s ease;
-  z-index:1;
+  padding:40px;
+  border-radius:12px;
+  box-shadow:0 0 20px rgba(0,0,0,0.3);
+  width:90%;
+  max-width:400px;
 }
 
-.form-box.register{
-  transform: translateX(100%);
+h1{
+  text-align:center;
+  margin-bottom:20px;
+  color:#333;
 }
 
-.container.active .form-box.login{
-  transform: translateX(-100%);
-}
-
-.container.active .form-box.register{
-  transform: translateX(0%);
-}
-
-/* Input */
 .input-box{
   position: relative;
-  margin: 20px 0;
-  width: 100%;
+  margin:20px 0;
 }
 .input-box input{
   width:100%;
@@ -68,7 +45,6 @@ body{
   font-size:20px;
 }
 
-/* Buttons */
 .btn{
   width:100%;
   padding:14px;
@@ -81,39 +57,16 @@ body{
   margin-top:10px;
 }
 
-/* Toggle Box */
-.toggle-box{
-  position:absolute;
-  width:50%;
-  height:100%;
-  top:0;
-  right:0;
-  background:#4e54c8;
-  color:#fff;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  transition:0.6s;
+p{
+  text-align:center;
+  margin-top:15px;
 }
-.container.active .toggle-box{
-  right:50%;
+p a{
+  color:#4e54c8;
+  text-decoration:none;
+  font-weight:500;
 }
 
-/* Responsive */
-@media(max-width:768px){
-  .container{
-    flex-direction: column;
-    height: auto;
-  }
-  .form-box{
-    width:100%;
-    transform: translateX(0%) !important;
-  }
-  .form-box.register{
-    margin-top:20px;
-  }
-  .toggle-box{
-    display:none;
-  }
+@media(max-width:500px){
+  .form-container{ padding:30px; width:95%; }
 }
