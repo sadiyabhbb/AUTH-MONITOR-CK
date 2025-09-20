@@ -3,113 +3,110 @@ const fs = require("fs-extra");
 const cors = require("cors");
 const axios = require("axios");
 const path = require("path");
+const session = require("express-session");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Session setup
+app.use(session({
+  secret: 'uptime-monitor-secret',
+  resave: false,
+  saveUninitialized: true
+}));
+
 app.use(express.static(path.join(__dirname, "public")));
 
 const DATA_FILE = path.join(__dirname, "data/urls.json");
+const USER_FILE = path.join(__dirname, "data/users.json");
+
 fs.ensureFileSync(DATA_FILE);
+fs.ensureFileSync(USER_FILE);
 
-// Load URLs
+// --- Load & Save Functions ---
 function loadURLs() {
-  try {
-    return fs.readJSONSync(DATA_FILE);
-  } catch {
-    return [];
-  }
+  try { return fs.readJSONSync(DATA_FILE); } catch { return []; }
+}
+function saveURLs(urls) { fs.writeJSONSync(DATA_FILE, urls, { spaces: 2 }); }
+
+function loadUsers() {
+  try { return fs.readJSONSync(USER_FILE); } catch { return []; }
+}
+function saveUsers(users) { fs.writeJSONSync(USER_FILE, users, { spaces: 2 }); }
+
+// --- Authentication Middleware ---
+function requireLogin(req, res, next) {
+  if (req.session.user) next();
+  else res.redirect("/login.html");
 }
 
-// Save URLs
-function saveURLs(urls) {
-  fs.writeJSONSync(DATA_FILE, urls, { spaces: 2 });
-}
+// --- Routes ---
+app.post("/register", (req, res) => {
+  const { username, email, password } = req.body;
+  if(!username || !email || !password) return res.json({ error: "All fields required" });
 
-// Ping a single URL
-async function pingURL(item) {
-  try {
-    const start = Date.now();
-    const res = await axios.get(item.url, { timeout: 10000 });
-    const time = Date.now() - start;
+  const users = loadUsers();
+  if(users.find(u=>u.username===username || u.email===email))
+    return res.json({ error: "User already exists" });
 
-    // calculate uptime duration
-    let uptime = "N/A";
-    if (item.addedTime) {
-      const durationMs = Date.now() - item.addedTime;
-      const minutes = Math.floor(durationMs / 60000);
-      const hours = Math.floor(minutes / 60);
-      const days = Math.floor(hours / 24);
-      uptime = `${days}d ${hours % 24}h ${minutes % 60}m`;
-    }
+  users.push({ username, email, password }); // Simple plaintext password (demo)
+  saveUsers(users);
+  res.json({ success: true });
+});
 
-    return {
-      ...item,
-      status: res.status >= 200 && res.status < 400 ? "✅ Online" : "❌ Down",
-      responseTime: time,
-      lastChecked: new Date().toLocaleString("en-GB", { timeZone: "Asia/Dhaka" }),
-      uptime
-    };
-  } catch {
-    let uptime = "N/A";
-    if (item.addedTime) {
-      const durationMs = Date.now() - item.addedTime;
-      const minutes = Math.floor(durationMs / 60000);
-      const hours = Math.floor(minutes / 60);
-      const days = Math.floor(hours / 24);
-      uptime = `${days}d ${hours % 24}h ${minutes % 60}m`;
-    }
-    return {
-      ...item,
-      status: "❌ Down",
-      responseTime: null,
-      lastChecked: new Date().toLocaleString("en-GB", { timeZone: "Asia/Dhaka" }),
-      uptime
-    };
-  }
-}
+app.post("/login", (req, res) => {
+  const { username, password } = req.body;
+  const users = loadUsers();
+  const user = users.find(u => u.username===username && u.password===password);
+  if(user) {
+    req.session.user = user;
+    res.json({ success: true });
+  } else res.json({ error: "Invalid credentials" });
+});
 
-// GET /status
-app.get("/status", async (req, res) => {
+app.get("/logout", (req,res)=>{
+  req.session.destroy();
+  res.redirect("/login.html");
+});
+
+// --- Monitor Endpoints ---
+app.get("/status", requireLogin, async (req, res) => {
   const urls = loadURLs();
   const results = await Promise.all(urls.map(pingURL));
   res.json(results);
 });
 
-// POST /add
-app.post("/add", async (req, res) => {
+app.post("/add", requireLogin, async (req, res) => {
   const { url, name } = req.body;
-  if (!url) return res.status(400).json({ error: "URL required" });
   const urls = loadURLs();
-  urls.push({
-    url,
-    name: name || url,
-    addedTime: Date.now(),
-    author: "LIKHON AHMED"
-  });
+  urls.push({ url, name: name || url, addedTime: Date.now(), author: req.session.user.username });
   saveURLs(urls);
   res.json({ success: true });
 });
 
-// POST /remove
-app.post("/remove", (req, res) => {
-  const { url } = req.body;
+app.post("/remove", requireLogin, (req, res) => {
   let urls = loadURLs();
-  urls = urls.filter(item => item.url !== url);
+  urls = urls.filter(item => item.url !== req.body.url);
   saveURLs(urls);
   res.json({ success: true });
 });
 
-// Start server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
-
-// Anti-sleep self ping (every 1 minute)
-setInterval(async () => {
+// --- Ping function same as before ---
+async function pingURL(item) {
   try {
-    await axios.get(`http://localhost:${PORT}/status`);
-    console.log("🔄 Self-ping successful (1m interval)...");
-  } catch (err) {
-    console.log("❌ Self-ping failed:", err.message);
+    const start = Date.now();
+    const res = await axios.get(item.url, { timeout: 10000 });
+    const time = Date.now() - start;
+    let uptime = item.addedTime ? `${Math.floor((Date.now()-item.addedTime)/60000)}m` : "N/A";
+    return { ...item, status: res.status<400?"✅ Online":"❌ Down", responseTime: time, lastChecked:new Date().toLocaleString("en-GB",{timeZone:"Asia/Dhaka"}), uptime };
+  } catch {
+    let uptime = item.addedTime ? `${Math.floor((Date.now()-item.addedTime)/60000)}m` : "N/A";
+    return { ...item, status:"❌ Down", responseTime:null, lastChecked:new Date().toLocaleString("en-GB",{timeZone:"Asia/Dhaka"}), uptime };
   }
-}, 60 * 1000); // প্রতি 1 মিনিটে নিজের server কে ping করবে
+}
+
+// --- Start Server ---
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, ()=>console.log(`🚀 Server running on port ${PORT}`));
