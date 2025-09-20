@@ -5,32 +5,23 @@ const loginBtn = document.querySelector('.login-btn');
 registerBtn.addEventListener('click', () => container.classList.add('active'));
 loginBtn.addEventListener('click', () => container.classList.remove('active'));
 
-// Forms
-const loginForm = document.getElementById('loginForm');
-const registerForm = document.getElementById('registerForm');
-
-loginForm?.addEventListener('submit', async e=>{
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(loginForm));
-    const res = await fetch('/login', {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify(data)
-    });
-    const result = await res.json();
-    if(result.success) window.location.href='/dashboard.html';
-    else alert(result.error);
+// Form submit
+document.getElementById("loginForm").addEventListener("submit", async e=>{
+  e.preventDefault();
+  const form = e.target;
+  const data = { username: form.username.value, password: form.password.value };
+  const res = await fetch("/login",{ method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(data) });
+  const json = await res.json();
+  if(json.success) window.location.href="/dashboard.html";
+  else alert(json.error || "Login failed");
 });
 
-registerForm?.addEventListener('submit', async e=>{
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(registerForm));
-    const res = await fetch('/register', {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify(data)
-    });
-    const result = await res.json();
-    if(result.success) alert('User registered successfully!');
-    else alert(result.error);
+document.getElementById("registerForm").addEventListener("submit", async e=>{
+  e.preventDefault();
+  const form = e.target;
+  const data = { username: form.username.value, email: form.email.value, password: form.password.value };
+  const res = await fetch("/register",{ method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(data) });
+  const json = await res.json();
+  if(json.success){ alert("Registered successfully!"); container.classList.remove('active'); }
+  else alert(json.error || "Registration failed");
 });
