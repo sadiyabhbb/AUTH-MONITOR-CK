@@ -1,9 +1,9 @@
 const express = require("express");
 const fs = require("fs-extra");
-const cors = require("cors");
-const axios = require("axios");
 const path = require("path");
+const axios = require("axios");
 const session = require("express-session");
+const cors = require("cors");
 
 const app = express();
 app.use(cors());
@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
-// Session middleware (for login)
+// Session middleware
 app.use(session({
   secret: "uptime-monitor-secret",
   resave: false,
@@ -25,31 +25,15 @@ const USERS_FILE = path.join(__dirname, "data/users.json");
 fs.ensureFileSync(DATA_FILE);
 fs.ensureFileSync(USERS_FILE);
 
-// Load URLs
-function loadURLs() {
-  try { return fs.readJSONSync(DATA_FILE); } 
-  catch { return []; }
-}
+// Load/Save functions
+const loadURLs = ()=> fs.readJSONSync(DATA_FILE, {throws:false}) || [];
+const saveURLs = urls => fs.writeJSONSync(DATA_FILE, urls, {spaces:2});
+const loadUsers = ()=> fs.readJSONSync(USERS_FILE, {throws:false}) || [];
+const saveUsers = users => fs.writeJSONSync(USERS_FILE, users, {spaces:2});
 
-// Save URLs
-function saveURLs(urls) {
-  fs.writeJSONSync(DATA_FILE, urls, { spaces: 2 });
-}
-
-// Load Users
-function loadUsers() {
-  try { return fs.readJSONSync(USERS_FILE); } 
-  catch { return []; }
-}
-
-// Save Users
-function saveUsers(users) {
-  fs.writeJSONSync(USERS_FILE, users, { spaces: 2 });
-}
-
-// Ping a URL
+// Ping URL function
 async function pingURL(item) {
-  try {
+  try{
     const start = Date.now();
     const res = await axios.get(item.url, { timeout: 10000 });
     const time = Date.now() - start;
@@ -65,12 +49,12 @@ async function pingURL(item) {
 
     return {
       ...item,
-      status: res.status >=200 && res.status <400 ? "✅ Online" : "❌ Down",
+      status: res.status>=200 && res.status<400 ? "✅ Online" : "❌ Down",
       responseTime: time,
       lastChecked: new Date().toLocaleString("en-GB",{timeZone:"Asia/Dhaka"}),
       uptime
     };
-  } catch {
+  }catch{
     let uptime = "N/A";
     if(item.addedTime){
       const durationMs = Date.now() - item.addedTime;
@@ -89,88 +73,76 @@ async function pingURL(item) {
   }
 }
 
-// ===== ROUTES =====
+// ===== Routes =====
 
-// Serve login page
-app.get("/login", (req,res) => {
-  res.sendFile(path.join(__dirname,"public/login.html"));
-});
-
-// Serve register page
-app.get("/register", (req,res) => {
-  res.sendFile(path.join(__dirname,"public/register.html"));
-});
-
-// Serve dashboard (protected)
-app.get("/dashboard.html", (req,res)=>{
+// Serve pages
+app.get("/login",(req,res)=>res.sendFile(path.join(__dirname,"public/login.html")));
+app.get("/register",(req,res)=>res.sendFile(path.join(__dirname,"public/register.html")));
+app.get("/dashboard.html",(req,res)=>{
   if(req.session.user) res.sendFile(path.join(__dirname,"public/index.html"));
   else res.redirect("/login");
 });
 
-// POST /register
-app.post("/register", (req,res)=>{
-  const { username,email,password } = req.body;
-  if(!username || !email || !password) return res.json({success:false,error:"All fields required"});
+// Auth API
+app.post("/register",(req,res)=>{
+  const {username,email,password} = req.body;
+  if(!username||!email||!password) return res.json({success:false,error:"All fields required"});
   const users = loadUsers();
-  if(users.find(u=>u.username===username || u.email===email)) return res.json({success:false,error:"User already exists"});
-  users.push({ username,email,password });
+  if(users.find(u=>u.username===username || u.email===email)) return res.json({success:false,error:"User exists"});
+  users.push({username,email,password});
   saveUsers(users);
   res.json({success:true});
 });
 
-// POST /login
-app.post("/login", (req,res)=>{
-  const { username,password } = req.body;
+app.post("/login",(req,res)=>{
+  const {username,password} = req.body;
   const users = loadUsers();
   const user = users.find(u=>u.username===username && u.password===password);
   if(!user) return res.json({success:false,error:"Invalid credentials"});
-  req.session.user = { username:user.username,email:user.email };
+  req.session.user={username:user.username,email:user.email};
   res.json({success:true});
 });
 
-// POST /logout
-app.post("/logout", (req,res)=>{
+app.post("/logout",(req,res)=>{
   req.session.destroy(err=>{
     if(err) return res.json({success:false,error:"Logout failed"});
     res.json({success:true});
   });
 });
 
-// GET /status (monitor)
-app.get("/status", async (req, res) => {
+// Monitor API (session protected)
+app.get("/status", async (req,res)=>{
   if(!req.session.user) return res.status(401).json({error:"Unauthorized"});
   const urls = loadURLs();
   const results = await Promise.all(urls.map(pingURL));
   res.json(results);
 });
 
-// POST /add (monitor)
-app.post("/add", async (req,res)=>{
+app.post("/add", (req,res)=>{
   if(!req.session.user) return res.status(401).json({error:"Unauthorized"});
-  const { url,name } = req.body;
+  const {url,name} = req.body;
   if(!url) return res.status(400).json({error:"URL required"});
   const urls = loadURLs();
-  urls.push({ url,name:name||url,addedTime:Date.now(),author:req.session.user.username });
+  urls.push({url,name:name||url,addedTime:Date.now(),author:req.session.user.username});
   saveURLs(urls);
   res.json({success:true});
 });
 
-// POST /remove (monitor)
-app.post("/remove", async (req,res)=>{
+app.post("/remove",(req,res)=>{
   if(!req.session.user) return res.status(401).json({error:"Unauthorized"});
-  const { url } = req.body;
+  const {url} = req.body;
   let urls = loadURLs();
   urls = urls.filter(item=>item.url!==url);
   saveURLs(urls);
   res.json({success:true});
 });
 
-// ===== START SERVER =====
-const PORT = process.env.PORT || 3000;
+// ===== Start Server =====
+const PORT = process.env.PORT||3000;
 app.listen(PORT,()=>console.log(`🚀 Server running on port ${PORT}`));
 
-// Anti-sleep self ping
-setInterval(async ()=>{
-  try{ await axios.get(`http://localhost:${PORT}/status`); console.log("🔄 Self-ping successful"); }
-  catch(err){ console.log("❌ Self-ping failed:",err.message); }
+// Anti-sleep ping
+setInterval(async()=>{
+  try{ await axios.get(`http://localhost:${PORT}/status`); console.log("🔄 Self-ping"); }
+  catch(e){ console.log("❌ Self-ping fail:",e.message); }
 },60*1000);
