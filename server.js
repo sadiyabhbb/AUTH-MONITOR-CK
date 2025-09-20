@@ -14,6 +14,8 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
+
+// Static files
 app.use(express.static(path.join(__dirname, "public")));
 
 // Data files
@@ -36,6 +38,11 @@ function requireLogin(req, res, next) {
 }
 
 // --- Routes ---
+
+// Root redirect to login
+app.get("/", (req, res) => {
+  res.redirect("/login.html");
+});
 
 // Register
 app.post("/register", (req, res) => {
