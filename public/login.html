@@ -1,65 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login / Register</title>
-    <link rel="stylesheet" href="style.css">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login / Register</title>
+  <link rel="stylesheet" href="style.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
-    <div class="container">
-        <div class="form-box login">
-            <form id="loginForm">
-                <h1>Inicia Sesión</h1>
-                <div class="input-box">
-                    <input type="text" placeholder="Usuario" name="username" required>
-                    <i class='bx bxs-user'></i>
-                </div>
-                <div class="input-box">
-                    <input type="password" placeholder="Contraseña" name="password" required>
-                    <i class='bx bxs-lock-alt'></i>
-                </div>
-                <button type="submit" class="btn">Inicia Sesión</button>
-                <p>o inicia sesión con plataformas sociales</p>
-            </form>
+  <div class="container">
+    <!-- Login Box -->
+    <div class="form-box login">
+      <form id="loginForm">
+        <h1>Login</h1>
+        <div class="input-box">
+          <input type="text" name="username" placeholder="Username" required>
+          <i class='bx bxs-user'></i>
         </div>
-
-        <div class="form-box register">
-            <form id="registerForm">
-                <h1>Registrarse</h1>
-                <div class="input-box">
-                    <input type="text" placeholder="Usuario" name="username" required>
-                    <i class='bx bxs-user'></i>
-                </div>
-                <div class="input-box">
-                    <input type="email" placeholder="Email" name="email" required>
-                    <i class='bx bxs-envelope'></i>
-                </div>
-                <div class="input-box">
-                    <input type="password" placeholder="Contraseña" name="password" required>
-                    <i class='bx bxs-lock-alt'></i>
-                </div>
-                <button type="submit" class="btn">Registrarse</button>
-                <p>o regístrate en plataformas sociales</p>
-            </form>
+        <div class="input-box">
+          <input type="password" name="password" placeholder="Password" required>
+          <i class='bx bxs-lock-alt'></i>
         </div>
-
-        <div class="toggle-box">
-            <div class="toggle-panel toggle-left">
-                <h1>¡Hola, bienvenido!</h1>
-                <p>¿No tienes una cuenta?</p>
-                <button class="btn register-btn">Registrate</button>
-            </div>
-
-            <div class="toggle-panel toggle-right">
-                <h1>¡Bienvenido de nuevo!</h1>
-                <p>¿Ya tienes una cuenta?</p>
-                <button class="btn login-btn">Inicia Sesión</button>
-            </div>
+        <button type="submit" class="btn">Login</button>
+        <p>or login with social</p>
+        <div class="social-icons">
+          <a href="#"><i class='bx bxl-google'></i></a>
+          <a href="#"><i class='bx bxl-facebook'></i></a>
+          <a href="#"><i class='bx bxl-github'></i></a>
+          <a href="#"><i class='bx bxl-linkedin'></i></a>
         </div>
+      </form>
     </div>
 
-    <script src="main.js"></script>
+    <!-- Register Box -->
+    <div class="form-box register">
+      <form id="registerForm">
+        <h1>Register</h1>
+        <div class="input-box">
+          <input type="text" name="username" placeholder="Username" required>
+          <i class='bx bxs-user'></i>
+        </div>
+        <div class="input-box">
+          <input type="email" name="email" placeholder="Email" required>
+          <i class='bx bxs-envelope'></i>
+        </div>
+        <div class="input-box">
+          <input type="password" name="password" placeholder="Password" required>
+          <i class='bx bxs-lock-alt'></i>
+        </div>
+        <button type="submit" class="btn">Register</button>
+        <p>or register with social</p>
+        <div class="social-icons">
+          <a href="#"><i class='bx bxl-google'></i></a>
+          <a href="#"><i class='bx bxl-facebook'></i></a>
+          <a href="#"><i class='bx bxl-github'></i></a>
+          <a href="#"><i class='bx bxl-linkedin'></i></a>
+        </div>
+      </form>
+    </div>
+
+    <!-- Toggle Panel -->
+    <div class="toggle-box">
+      <div class="toggle-panel toggle-left">
+        <h1>Welcome!</h1>
+        <p>Don't have an account?</p>
+        <button class="btn register-btn">Register</button>
+      </div>
+      <div class="toggle-panel toggle-right">
+        <h1>Welcome Back!</h1>
+        <p>Already have an account?</p>
+        <button class="btn login-btn">Login</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
 </body>
-  </html>
+</html>
