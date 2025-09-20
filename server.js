@@ -141,8 +141,12 @@ app.post("/remove",(req,res)=>{
 const PORT = process.env.PORT||3000;
 app.listen(PORT,()=>console.log(`🚀 Server running on port ${PORT}`));
 
-// Anti-sleep ping
+// Anti-sleep ping (ignore 401)
 setInterval(async()=>{
-  try{ await axios.get(`http://localhost:${PORT}/status`); console.log("🔄 Self-ping"); }
-  catch(e){ console.log("❌ Self-ping fail:",e.message); }
-},60*1000);
+  try {
+    await axios.get(`http://localhost:${PORT}/status`).catch(()=>{});
+    console.log("🔄 Self-ping executed");
+  } catch(e) {
+    console.log("❌ Self-ping fail:", e.message);
+  }
+}, 60*1000);
