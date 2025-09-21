@@ -75,31 +75,36 @@ p a{
   .form-container{ padding:30px; width:95%; }
 }
 
-/* ✅ Inline message box for login/register */
-.msg{
-  width:100%;
-  padding:12px 14px;
-  border-radius:8px;
-  margin-bottom:10px;
-  font-weight:600;
-  text-align:center;
-  box-shadow:0 4px 10px rgba(0,0,0,0.08);
-  animation: fadeIn 0.4s ease;
-  opacity:1;
-  transition: opacity 0.5s ease;
-}
-.msg.success{
-  background: linear-gradient(90deg, rgba(56,142,60,0.12), rgba(76,175,80,0.08));
-  color:#2e7d32;
-  border:1px solid rgba(76,175,80,0.18);
-}
-.msg.error{
-  background: linear-gradient(90deg, rgba(229,57,53,0.06), rgba(244,67,54,0.03));
-  color:#c62828;
-  border:1px solid rgba(244,67,54,0.12);
+/* ------------------- Sliding Message Box ------------------- */
+.msg {
+  position: fixed;
+  top: 20px;
+  left: -320px; /* start off-screen */
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  min-width: 220px;
+  max-width: 300px;
+  text-align: left;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 9999;
+  transition: left 0.5s ease, opacity 0.5s ease;
+  opacity: 0;
 }
 
-/* ছোট একটা fade-in effect */
+.msg.success {
+  background: #e0f2f1;
+  color: #00695c;
+  border-left: 5px solid #26a69a;
+}
+
+.msg.error {
+  background: #ffebee;
+  color: #c62828;
+  border-left: 5px solid #e53935;
+}
+
+/* Optional fade-in effect */
 @keyframes fadeIn {
   from { opacity:0; transform:translateY(-5px);}
   to { opacity:1; transform:translateY(0);}
