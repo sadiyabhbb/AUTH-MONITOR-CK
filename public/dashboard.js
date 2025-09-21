@@ -3,6 +3,7 @@ const ctx = canvas.getContext('2d');
 let width = canvas.width = window.innerWidth;
 let height = canvas.height = window.innerHeight;
 
+// Waves & particles
 const waveCount = 5;
 const waves = [];
 for (let i = 0; i < waveCount; i++) {
@@ -26,6 +27,7 @@ for (let i=0;i<100;i++){
   });
 }
 
+// Canvas draw
 function drawBackground(){
   ctx.clearRect(0,0,width,height);
   ctx.fillStyle = '#0d0d0d';
@@ -62,7 +64,28 @@ function drawBackground(){
 drawBackground();
 window.addEventListener('resize',()=>{width=canvas.width=window.innerWidth;height=canvas.height=window.innerHeight;});
 
-// Fetch status
+// -------------------- Inline message box --------------------
+function showMessage(text, type='error', duration=2500){
+  let msgBox = document.getElementById('msgBox');
+  if(!msgBox){
+    msgBox = document.createElement('div');
+    msgBox.id = 'msgBox';
+    msgBox.className = 'msg';
+    document.body.appendChild(msgBox);
+  }
+  msgBox.textContent = text;
+  msgBox.className = 'msg ' + (type==='success' ? 'success' : 'error');
+  msgBox.style.left = '20px';
+  msgBox.style.opacity = '1';
+
+  setTimeout(()=>{
+    msgBox.style.left = '100%';
+    msgBox.style.opacity = '0';
+    setTimeout(()=>{ msgBox.remove(); }, 500);
+  }, duration);
+}
+
+// -------------------- Fetch Status --------------------
 async function fetchStatus() {
   try {
     const res = await fetch('/status');
@@ -92,32 +115,63 @@ async function fetchStatus() {
   } catch (err) { console.error(err); }
 }
 
+// -------------------- Add URL --------------------
 async function addURL() {
-  const url = document.getElementById('urlInput').value.trim();
-  if (!url) return alert('Enter a URL');
+  const urlInput = document.getElementById('urlInput');
+  const url = urlInput.value.trim();
+  if (!url) return showMessage('Enter a URL','error');
+
   const name = prompt('Enter a title/name for this link') || url;
 
-  await fetch('/add', {
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({url,name})
-  });
-  document.getElementById('urlInput').value='';
-  fetchStatus();
+  try {
+    const res = await fetch('/add', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({url,name})
+    });
+    const json = await res.json();
+    if(json.success){
+      showMessage('URL added successfully','success');
+      urlInput.value='';
+      fetchStatus();
+    } else {
+      showMessage(json.error || 'Failed to add URL','error');
+    }
+  } catch(e){
+    showMessage('Server error','error');
+  }
 }
 
+// -------------------- Remove URL --------------------
 async function removeURL(url){
-  await fetch('/remove',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({url})
-  });
-  fetchStatus();
+  try {
+    const res = await fetch('/remove',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({url})
+    });
+    const json = await res.json();
+    if(json.success){
+      showMessage('URL removed','success');
+      fetchStatus();
+    } else {
+      showMessage(json.error || 'Failed to remove URL','error');
+    }
+  } catch(e){
+    showMessage('Server error','error');
+  }
 }
 
+// -------------------- Logout --------------------
 function logout(){
-  window.location.href = '/logout';
+  fetch("/logout",{method:"POST"})
+  .then(res=>res.json())
+  .then(json=>{
+    if(json.success) window.location.href="/login.html";
+    else showMessage(json.error || "Logout failed",'error');
+  });
 }
 
+// Initial fetch + interval
 fetchStatus();
 setInterval(fetchStatus,60*1000);
