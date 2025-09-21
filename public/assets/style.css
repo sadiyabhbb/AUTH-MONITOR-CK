@@ -1,34 +1,42 @@
-/* Body */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
 body {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+  background: linear-gradient(135deg, #89f7fe, #66a6ff); /* Soft blue gradient */
   overflow: hidden;
   position: relative;
-  padding: 20px; /* Mobile padding */
+  padding: 20px;
 }
 
-/* Form container */
+/* ---------------- Form Container ---------------- */
 .form-container {
   background: rgba(255,255,255,0.95);
   padding: 40px 25px;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
   width: 100%;
   max-width: 400px;
   text-align: center;
   position: relative;
   z-index: 2;
-  box-sizing: border-box;
 }
 
 /* Heading */
 h1 {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   color: #333;
   font-size: 24px;
+  font-weight: 700;
 }
 
 /* Input */
@@ -38,8 +46,8 @@ h1 {
 }
 .input-box input {
   width: 100%;
-  padding: 13px 45px 13px 15px;
-  border-radius: 8px;
+  padding: 15px 20px;
+  border-radius: 12px;
   border: 1px solid #ddd;
   font-size: 16px;
   background: #f9f9f9;
@@ -47,26 +55,31 @@ h1 {
   transition: all 0.3s ease;
 }
 .input-box input:focus {
-  border-color: #6c63ff;
-  box-shadow: 0 5px 15px rgba(79,172,254,0.35);
+  border-color: #00c6ff; /* Accent color */
+  box-shadow: 0 5px 15px rgba(0,198,255,0.35);
   background: #fff;
 }
 
 /* Button */
 .btn {
   width: 100%;
-  padding: 14px;
-  background: #6c63ff;
+  padding: 15px;
+  background: linear-gradient(90deg, #00c6ff, #0072ff);
   border: none;
   color: #fff;
   font-weight: 600;
   cursor: pointer;
-  border-radius: 8px;
-  margin-top: 10px;
-  transition: background 0.3s ease;
+  border-radius: 12px;
+  margin-top: 15px;
+  font-size: 16px;
+  letter-spacing: 1px;
+  transition: all 0.4s ease;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 .btn:hover {
-  background: #574fd6;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+  background: linear-gradient(90deg, #0072ff, #00c6ff);
 }
 
 /* Paragraph & links */
@@ -76,9 +89,12 @@ p {
   color: #555;
 }
 p a {
-  color: #6c63ff;
+  color: #0072ff;
   text-decoration: none;
   font-weight: 500;
+}
+p a:hover {
+  color: #00c6ff;
 }
 
 /* Message box */
@@ -86,10 +102,10 @@ p a {
   width: calc(100% - 40px);
   max-width: 400px;
   padding: 12px 14px;
-  border-radius: 8px;
+  border-radius: 12px;
   font-weight: 600;
   text-align: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
   position: fixed;
   top: 20px;
   left: 50%;
@@ -101,22 +117,22 @@ p a {
 .msg.success { background: #e0f7fa; color: #00796b; border: 1px solid #4db6ac; }
 .msg.error { background: #ffebee; color: #c62828; border: 1px solid #f06292; }
 
-/* Floating bubbles */
+/* ---------------- Floating Bubbles ---------------- */
 .bubble {
   position: absolute;
   border-radius: 50%;
-  opacity: 0.6;
+  opacity: 0.5;
   animation-name: floatUp;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
 }
 @keyframes floatUp {
-  0% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-50px) scale(1.1); }
-  100% { transform: translateY(0) scale(1); }
+  0% { transform: translateY(0) scale(1);}
+  50% { transform: translateY(-50px) scale(1.1);}
+  100% { transform: translateY(0) scale(1);}
 }
 
-/* ================= Responsive ================= */
+/* ---------------- Responsive ---------------- */
 @media (max-width: 600px) {
   .form-container {
     padding: 30px 20px;
