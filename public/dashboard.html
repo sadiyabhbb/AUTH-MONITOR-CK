@@ -8,10 +8,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- Canvas Background -->
   <canvas id="waterCanvas"></canvas>
 
-  <!-- Header -->
   <header>
     <div>
       <h1>🌐 Uptime Monitor</h1>
@@ -20,27 +18,22 @@
     <button onclick="logout()" class="logout-btn">Logout</button>
   </header>
 
-  <!-- Main Content -->
   <main>
-    <!-- Control Panel -->
     <section class="control-panel">
       <input type="text" id="urlInput" placeholder="https://example.com" />
       <button onclick="addURL()">➕ Add</button>
     </section>
 
-    <!-- Monitored Links -->
     <section>
       <h2>Monitored Links</h2>
       <ul id="urlList" class="card-list"></ul>
     </section>
   </main>
 
-  <!-- Footer -->
   <footer>
     <p>⚡ Powered by Your Uptime Monitor</p>
   </footer>
 
-  <!-- JS -->
   <script src="dashboard.js"></script>
 </body>
 </html>
