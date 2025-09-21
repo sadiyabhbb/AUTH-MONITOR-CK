@@ -32,12 +32,9 @@ for (let i = 0; i < 100; i++) {
 // Draw canvas
 function drawBackground() {
   ctx.clearRect(0, 0, width, height);
-
-  // background
   ctx.fillStyle = '#0d0d0d';
   ctx.fillRect(0, 0, width, height);
 
-  // waves
   ctx.strokeStyle = 'rgba(33,150,243,0.3)';
   ctx.lineWidth = 2;
   waves.forEach(w => {
@@ -51,7 +48,6 @@ function drawBackground() {
     w.phase += w.speed;
   });
 
-  // particles
   ctx.fillStyle = 'rgba(33,150,243,0.3)';
   particles.forEach(p => {
     ctx.beginPath();
@@ -59,7 +55,6 @@ function drawBackground() {
     ctx.fill();
     p.x += p.speedX;
     p.y += p.speedY;
-
     if (p.x < 0) p.x = width;
     if (p.x > width) p.x = 0;
     if (p.y < 0) p.y = height;
@@ -77,11 +72,10 @@ window.addEventListener('resize', () => {
 });
 
 // ===== Dashboard Functionality =====
-
-// Fetch status and render cards
 async function fetchStatus() {
   try {
     const res = await fetch('/status');
+    if(!res.ok) return; // unauthorized
     const data = await res.json();
     const list = document.getElementById('urlList');
     list.innerHTML = '';
@@ -96,8 +90,7 @@ async function fetchStatus() {
         </div>
         <div class="card-body collapsed">
           <p><strong>URL:</strong> ${item.url}</p>
-          <p><strong>Status:</strong> <span class="status ${item.status.startsWith('✅') ? 'online' : 'offline'}">
-          ${item.status}</span></p>
+          <p><strong>Status:</strong> <span class="status ${item.status.startsWith('✅') ? 'online' : 'offline'}">${item.status}</span></p>
           <p><strong>Response Time:</strong> ${item.responseTime != null ? item.responseTime + ' ms' : 'N/A'}</p>
           <p><strong>Added:</strong> ${new Date(item.addedTime).toLocaleString("en-US",{timeZone:"Asia/Dhaka"})}</p>
           <p><strong>Author:</strong> ${item.author || 'AHMED'}</p>
@@ -106,12 +99,9 @@ async function fetchStatus() {
       `;
       list.appendChild(li);
     });
-  } catch (err) {
-    console.error(err);
-  }
+  } catch(err){ console.error(err); }
 }
 
-// Add URL
 async function addURL() {
   const url = document.getElementById('urlInput').value.trim();
   if (!url) return alert('Enter a URL');
@@ -122,12 +112,10 @@ async function addURL() {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ url, name })
   });
-
-  document.getElementById('urlInput').value = '';
+  document.getElementById('urlInput').value='';
   fetchStatus();
 }
 
-// Remove URL
 async function removeURL(url) {
   await fetch('/remove', {
     method: 'POST',
@@ -137,11 +125,15 @@ async function removeURL(url) {
   fetchStatus();
 }
 
-// Logout
-function logout() {
-  window.location.href = '/logout';
+function logout(){
+  fetch("/logout",{method:"POST"})
+  .then(res=>res.json())
+  .then(json=>{
+    if(json.success) window.location.href="/login.html";
+    else alert(json.error || "Logout failed");
+  });
 }
 
 // Initial fetch
 fetchStatus();
-setInterval(fetchStatus, 60 * 1000);
+setInterval(fetchStatus, 60*1000);
