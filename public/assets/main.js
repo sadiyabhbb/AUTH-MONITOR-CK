@@ -1,4 +1,5 @@
-function showMessage(text, type='error', duration=3000) {
+// ---------- Show sliding message ----------
+function showMessage(text, type='success', duration=3000){
   let msgBox = document.getElementById('msgBox');
   if(!msgBox){
     msgBox = document.createElement('div');
@@ -8,75 +9,49 @@ function showMessage(text, type='error', duration=3000) {
   }
   msgBox.textContent = text;
   msgBox.className = 'msg ' + (type==='success' ? 'success' : 'error');
-  msgBox.style.left = '20px';
   msgBox.style.opacity = '1';
 
-  setTimeout(()=>{
-    msgBox.style.left = '100%';
-    msgBox.style.opacity = '0';
-    setTimeout(()=>{ msgBox.remove(); }, 500);
-  }, duration);
+  setTimeout(()=>{ msgBox.style.opacity='0'; }, duration);
+  setTimeout(()=>{ msgBox.remove(); }, duration+500);
 }
 
-// Login
+// ---------- Login ----------
 const loginForm = document.getElementById("loginForm");
 if(loginForm){
   loginForm.addEventListener("submit", async e=>{
     e.preventDefault();
-    const form = e.target;
-    const data = { username: form.username.value, password: form.password.value };
+    const data = { username:e.target.username.value, password:e.target.password.value };
     try {
-      const res = await fetch("/login", {
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body: JSON.stringify(data)
-      });
+      const res = await fetch("/login", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(data) });
       const json = await res.json();
       if(json.success){
         showMessage('Login successful! Redirecting...', 'success');
-        setTimeout(()=> window.location.href="/dashboard", 900);
-      } else {
-        showMessage(json.error || "Login failed", 'error');
-      }
-    } catch(err){
-      showMessage('Server error. Try again later.', 'error');
-      console.error(err);
-    }
+        setTimeout(()=> window.location.href="/dashboard", 800);
+      } else showMessage(json.error || "Login failed", 'error');
+    } catch(err){ showMessage('Server error. Try again.', 'error'); console.error(err); }
   });
 }
 
-// Register
+// ---------- Register ----------
 const registerForm = document.getElementById("registerForm");
 if(registerForm){
   registerForm.addEventListener("submit", async e=>{
     e.preventDefault();
-    const form = e.target;
-    const data = { username: form.username.value, email: form.email.value, password: form.password.value };
+    const data = { username:e.target.username.value, email:e.target.email.value, password:e.target.password.value };
     try {
-      const res = await fetch("/register", {
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body: JSON.stringify(data)
-      });
+      const res = await fetch("/register",{ method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(data) });
       const json = await res.json();
       if(json.success){
         showMessage("Registered successfully!", 'success');
-        setTimeout(()=> window.location.href="/login", 900);
-      } else {
-        showMessage(json.error || "Registration failed", 'error');
-      }
-    } catch(err){
-      showMessage('Server error. Try again later.', 'error');
-      console.error(err);
-    }
+        setTimeout(()=> window.location.href="/login", 800);
+      } else showMessage(json.error || "Registration failed",'error');
+    } catch(err){ showMessage('Server error. Try again.', 'error'); console.error(err);}
   });
 }
 
-// Logout (login/register)
+// ---------- Logout ----------
 function logout(){
-  fetch("/logout",{method:"POST"})
-  .then(res=>res.json())
-  .then(json=>{
+  fetch("/logout",{method:"POST"}).then(res=>res.json()).then(json=>{
     if(json.success) window.location.href="/login";
     else showMessage(json.error || "Logout failed", 'error');
   });
