@@ -9,18 +9,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Serve static assets
-app.use('/assets', express.static(path.join(__dirname, 'public/assets')));
-app.use('/login.html', express.static(path.join(__dirname, 'public/login.html')));
-app.use('/register.html', express.static(path.join(__dirname, 'public/register.html')));
+app.use(express.static(path.join(__dirname, "public")));
 
 // Session middleware
 app.use(session({
   secret: "uptime-monitor-secret",
   resave: false,
   saveUninitialized: true,
-  cookie: { maxAge: 24*60*60*1000 } // 1 day
+  cookie: { maxAge: 24*60*60*1000 }
 }));
 
 // Data files
@@ -78,16 +74,14 @@ async function pingURL(item) {
 }
 
 // ===== Routes =====
-app.get("/login",(req,res)=> res.sendFile(path.join(__dirname,"public/login.html")));
-app.get("/register",(req,res)=> res.sendFile(path.join(__dirname,"public/register.html")));
 
-// Protected dashboard route
-app.get("/dashboard.html",(req,res)=>{
-  if(req.session.user){
-    res.sendFile(path.join(__dirname, "dashboard.html"));
-  } else {
-    res.redirect("/login");
-  }
+// Pages
+app.get("/", (req,res)=> res.redirect("/login"));
+app.get("/login",(req,res)=>res.sendFile(path.join(__dirname,"public/login.html")));
+app.get("/register",(req,res)=>res.sendFile(path.join(__dirname,"public/register.html")));
+app.get("/dashboard",(req,res)=>{
+  if(req.session.user) res.sendFile(path.join(__dirname,"dashboard.html"));
+  else res.redirect("/login");
 });
 
 // Auth API
