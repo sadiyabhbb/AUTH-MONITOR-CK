@@ -17,11 +17,11 @@ body {
   position: relative;
 }
 
-/* Floating background bubbles */
+/* Floating background circles (optional, dynamic with JS) */
 .bubble {
   position: absolute;
   border-radius: 50%;
-  opacity: 0.3;
+  opacity: 0.2;
   animation: floatBubble linear infinite;
 }
 
@@ -191,9 +191,30 @@ p a:hover {
   to { opacity: 1; transform: translateX(0);}
 }
 
-@media (max-width: 500px) {
+/* ===================== Responsive ===================== */
+@media (max-width: 600px) {
   .form-container {
-    padding: 30px;
+    padding: 30px 25px;
     width: 95%;
+  }
+  h1 {
+    font-size: 22px;
+  }
+  .btn {
+    padding: 12px;
+    font-size: 15px;
+  }
+  .input-box input {
+    padding: 12px 45px 12px 15px;
+  }
+}
+
+@media (max-width: 400px) {
+  h1 {
+    font-size: 20px;
+  }
+  .btn {
+    padding: 10px;
+    font-size: 14px;
   }
 }
