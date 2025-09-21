@@ -11,13 +11,11 @@
   <canvas id="waterCanvas"></canvas>
 
   <header>
-    <div class="header-left">
+    <div>
       <h1>🌐 Uptime Monitor</h1>
       <p>Track your websites in real time</p>
     </div>
-    <div class="header-right">
-      <button onclick="logout()" class="logout-btn">Logout</button>
-    </div>
+    <button onclick="logout()" class="logout-btn">Logout</button>
   </header>
 
   <main>
@@ -26,7 +24,7 @@
       <button onclick="addURL()">➕ Add</button>
     </section>
 
-    <section class="monitored-links">
+    <section>
       <h2>Monitored Links</h2>
       <ul id="urlList" class="card-list"></ul>
     </section>
@@ -38,4 +36,4 @@
 
   <script src="./public/assets/dashboard.js"></script>
 </body>
-  </html>
+</html>
