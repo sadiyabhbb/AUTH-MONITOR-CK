@@ -5,23 +5,80 @@ const loginBtn = document.querySelector('.login-btn');
 registerBtn.addEventListener('click', () => container.classList.add('active'));
 loginBtn.addEventListener('click', () => container.classList.remove('active'));
 
-// Form submit
-document.getElementById("loginForm").addEventListener("submit", async e=>{
-  e.preventDefault();
-  const form = e.target;
-  const data = { username: form.username.value, password: form.password.value };
-  const res = await fetch("/login",{ method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(data) });
-  const json = await res.json();
-  if(json.success) window.location.href="/dashboard.html";
-  else alert(json.error || "Login failed");
-});
+// ------------------- Show sliding message -------------------
+function showMessage(text, type='error', duration=3000) {
+  let msgBox = document.getElementById('msgBox');
+  if(!msgBox){
+    msgBox = document.createElement('div');
+    msgBox.id = 'msgBox';
+    msgBox.className = 'msg';
+    document.body.appendChild(msgBox);
+  }
+  msgBox.textContent = text;
+  msgBox.className = 'msg ' + (type==='success' ? 'success' : 'error');
+  
+  // Slide-in left
+  msgBox.style.left = '20px';
+  msgBox.style.opacity = '1';
 
-document.getElementById("registerForm").addEventListener("submit", async e=>{
-  e.preventDefault();
-  const form = e.target;
-  const data = { username: form.username.value, email: form.email.value, password: form.password.value };
-  const res = await fetch("/register",{ method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(data) });
-  const json = await res.json();
-  if(json.success){ alert("Registered successfully!"); container.classList.remove('active'); }
-  else alert(json.error || "Registration failed");
-});
+  // Slide-out after duration
+  setTimeout(()=>{
+    msgBox.style.left = '100%';
+    msgBox.style.opacity = '0';
+    setTimeout(()=>{ msgBox.remove(); }, 500);
+  }, duration);
+}
+
+// ------------------- Login form -------------------
+const loginForm = document.getElementById("loginForm");
+if(loginForm){
+  loginForm.addEventListener("submit", async e=>{
+    e.preventDefault();
+    const form = e.target;
+    const data = { username: form.username.value, password: form.password.value };
+    try {
+      const res = await fetch("/login", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify(data)
+      });
+      const json = await res.json();
+      if(json.success){
+        showMessage('Login successful! Redirecting...', 'success');
+        setTimeout(()=> window.location.href="/dashboard.html", 900);
+      } else {
+        showMessage(json.error || "Login failed", 'error');
+      }
+    } catch(err){
+      showMessage('Server error. Try again later.', 'error');
+      console.error(err);
+    }
+  });
+}
+
+// ------------------- Register form -------------------
+const registerForm = document.getElementById("registerForm");
+if(registerForm){
+  registerForm.addEventListener("submit", async e=>{
+    e.preventDefault();
+    const form = e.target;
+    const data = { username: form.username.value, email: form.email.value, password: form.password.value };
+    try {
+      const res = await fetch("/register", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify(data)
+      });
+      const json = await res.json();
+      if(json.success){
+        showMessage("Registered successfully!", 'success');
+        setTimeout(()=> container.classList.remove('active'), 900);
+      } else {
+        showMessage(json.error || "Registration failed", 'error');
+      }
+    } catch(err){
+      showMessage('Server error. Try again later.', 'error');
+      console.error(err);
+    }
+  });
+}
