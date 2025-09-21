@@ -39,6 +39,14 @@
       msgBox.textContent = text;
       msgBox.className = 'msg ' + (type === 'success' ? 'success' : 'error');
       msgBox.style.display = 'block';
+      msgBox.style.opacity = '1';
+
+      // auto hide after 3s
+      setTimeout(() => {
+        msgBox.style.opacity = '0';
+        setTimeout(() => { msgBox.style.display = 'none'; }, 500);
+      }, 3000);
+
       if (redirect) {
         setTimeout(() => window.location.href = redirect, delay);
       }
