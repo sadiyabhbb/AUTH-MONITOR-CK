@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
+/* ===== Reset & Font ===== */
 * {
   margin: 0;
   padding: 0;
@@ -12,100 +13,109 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #74ebd5, #ACB6E5); /* Soft gradient */
-  overflow: hidden;
+  background: linear-gradient(135deg, #89f7fe, #66a6ff); /* Simple gradient */
+  overflow: hidden; /* Bubble overflow hide */
+  position: relative;
 }
 
-/* ---------------- Form Container ---------------- */
+/* ===== Form Container ===== */
 .form-container {
-  background: #ffffff; /* Clean single color */
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 40px 35px;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
   width: 90%;
   max-width: 400px;
   text-align: center;
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
 }
 
+/* ===== Headings ===== */
 h1 {
-  margin-bottom: 20px;
-  color: #333;
+  margin-bottom: 25px;
   font-weight: 700;
+  color: #333;
+  letter-spacing: 1px;
 }
 
+/* ===== Input Boxes ===== */
 .input-box {
   position: relative;
-  margin: 20px 0;
+  margin: 18px 0;
 }
 
 .input-box input {
   width: 100%;
-  padding: 13px 50px 13px 20px;
-  border-radius: 8px;
+  padding: 14px 20px;
+  border-radius: 12px;
   border: 1px solid #ddd;
   outline: none;
   font-size: 16px;
   background: #f9f9f9;
-  transition: border 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .input-box input:focus {
-  border-color: #6c63ff;
-  box-shadow: 0 5px 15px rgba(108, 99, 255, 0.2);
+  border-color: #4facfe;
+  box-shadow: 0 4px 12px rgba(79, 172, 254, 0.3);
+  background: #fff;
 }
 
-.input-box i {
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 20px;
-  color: #888;
-}
-
+/* ===== Buttons ===== */
 .btn {
   width: 100%;
   padding: 14px;
-  background: #6c63ff; /* Primary button color */
+  margin-top: 12px;
+  background: #4facfe; /* Clean main color */
   border: none;
   color: #fff;
   font-weight: 600;
+  border-radius: 12px;
   cursor: pointer;
-  border-radius: 8px;
-  margin-top: 10px;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .btn:hover {
-  background: #574fd6;
+  background: #00f2fe;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
 }
 
+/* ===== Paragraphs & Links ===== */
 p {
   margin-top: 15px;
+  font-size: 14px;
+  color: #555;
 }
 
 p a {
-  color: #6c63ff;
-  text-decoration: none;
+  color: #4facfe;
   font-weight: 500;
+  text-decoration: none;
 }
 
-/* ---------------- Message Box ---------------- */
+p a:hover {
+  color: #00f2fe;
+}
+
+/* ===== Message Box ===== */
 .msg {
-  width: 100%;
-  padding: 12px 14px;
-  border-radius: 8px;
+  width: auto;
+  padding: 12px 18px;
+  border-radius: 12px;
   margin-bottom: 10px;
   font-weight: 600;
   text-align: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  animation: fadeIn 0.4s ease;
-  opacity: 1;
   position: fixed;
-  left: 20px;
   top: 20px;
-  z-index: 10;
-  transition: all 0.5s ease;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  opacity: 1;
+  z-index: 999;
+  transition: all 0.4s ease;
 }
 
 .msg.success {
@@ -120,26 +130,32 @@ p a {
   border: 1px solid #f06292;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-5px);}
-  to { opacity: 1; transform: translateY(0);}
+/* ===== Optional Floating Bubbles ===== */
+.bubble {
+  display: none; /* Off by default */
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.2;
 }
 
-/* ---------------- Responsive ---------------- */
+/* ===== Responsive ===== */
 @media (max-width: 600px) {
   .form-container {
-    padding: 30px;
+    padding: 28px 20px;
     width: 95%;
   }
+  
   h1 {
     font-size: 22px;
   }
+  
   .btn {
     padding: 12px;
     font-size: 15px;
   }
+  
   .input-box input {
-    padding: 12px 45px 12px 15px;
+    padding: 12px 16px;
   }
 }
 
