@@ -9,12 +9,9 @@
 </head>
 <body>
   <div class="form-container">
+    <h1>Login</h1>
+    <div id="msgBox" class="msg"></div>
     <form id="loginForm">
-      <h1>Login</h1>
-
-      <!-- message box -->
-      <div id="msgBox" class="msg" style="display:none;"></div>
-
       <div class="input-box">
         <input type="text" name="username" placeholder="Username" required>
         <i class='bx bxs-user'></i>
@@ -28,43 +25,6 @@
     </form>
   </div>
 
-  <script>
-    const msgBox = document.getElementById('msgBox');
-
-    function showMessage(text, type = 'error', redirect = null, delay = 1400) {
-      msgBox.textContent = text;
-      msgBox.className = 'msg ' + (type === 'success' ? 'success' : 'error');
-      msgBox.style.display = 'block';
-      msgBox.style.opacity = '1';
-
-      // auto hide after 3s
-      setTimeout(() => {
-        msgBox.style.opacity = '0';
-        setTimeout(() => { msgBox.style.display = 'none'; }, 500);
-      }, 3000);
-
-      if (redirect) {
-        setTimeout(() => window.location.href = redirect, delay);
-      }
-    }
-
-    document.getElementById("loginForm").addEventListener("submit", async e=>{
-      e.preventDefault();
-      const form = e.target;
-      const data = { username: form.username.value, password: form.password.value };
-      try {
-        const res = await fetch("/login",{ method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(data) });
-        const json = await res.json();
-        if(json.success) {
-          showMessage('Login successful — Redirecting...', 'success', '/dashboard.html', 900);
-        } else {
-          showMessage(json.error || "Login failed", 'error');
-        }
-      } catch(err) {
-        showMessage('Server error. Try again later.', 'error');
-        console.error(err);
-      }
-    });
-  </script>
+  <script src="main.js"></script>
 </body>
 </html>
