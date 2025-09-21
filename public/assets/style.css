@@ -1,5 +1,61 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
+/* ===== Theme Variables (Easily change colors from here) ===== */
+:root {
+  --bg-start: #eef2ff;            /* soft indigo tint */
+  --bg-end:   #e0f2fe;            /* soft cyan tint */
+  --card-bg:  #ffffff;
+  --text:     #1f2937;            /* slate-800 */
+  --muted:    #6b7280;            /* slate-500 */
+
+  --primary:         #6366f1;     /* indigo-500 */
+  --primary-hover:   #4f46e5;     /* indigo-600 */
+  --primary-contrast:#ffffff;
+
+  --border:   #e5e7eb;            /* light border */
+  --input-bg: #f9fafb;            /* light input bg */
+
+  --shadow:  0 10px 25px rgba(17, 24, 39, 0.12);
+
+  /* Status colors */
+  --success-bg:    #ecfdf5;
+  --success-text:  #065f46;
+  --success-border:#34d399;
+
+  --error-bg:      #fef2f2;
+  --error-text:    #991b1b;
+  --error-border:  #fca5a5;
+
+  --focus-ring: rgba(99, 102, 241, 0.35); /* primary glow */
+}
+
+/* ===== Dark Mode (auto with system setting) ===== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-start: #0b1220;
+    --bg-end:   #0e1726;
+    --card-bg:  #0f172a;          /* slate-900 */
+    --text:     #e5e7eb;          /* slate-200 */
+    --muted:    #94a3b8;          /* slate-400 */
+
+    --border:   #1f2937;
+    --input-bg: #0b1220;
+
+    --shadow:  0 10px 30px rgba(0, 0, 0, 0.4);
+
+    --success-bg:    rgba(16, 185, 129, 0.12);
+    --success-text:  #34d399;
+    --success-border:#10b981;
+
+    --error-bg:      rgba(239, 68, 68, 0.14);
+    --error-text:    #f87171;
+    --error-border:  #ef4444;
+
+    --focus-ring: rgba(99, 102, 241, 0.45);
+  }
+}
+
+/* ===== Base Reset ===== */
 * {
   margin: 0;
   padding: 0;
@@ -7,125 +63,183 @@
   font-family: 'Inter', sans-serif;
 }
 
+/* ===== Layout & Background ===== */
 body {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #74ebd5, #ACB6E5); /* Soft gradient */
+
+  /* Soft gradient background */
+  background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
 }
 
+/* ===== Card / Container ===== */
 .form-container {
-  background: #ffffff;
+  background: var(--card-bg);
+  color: var(--text);
   padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
   width: 90%;
-  max-width: 400px;
+  max-width: 420px;
   text-align: center;
+  border: 1px solid rgba(99, 102, 241, 0.08); /* subtle accent border */
+  backdrop-filter: saturate(120%) blur(2px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.form-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px rgba(17, 24, 39, 0.16);
+}
+
+/* ===== Headings ===== */
 h1 {
-  margin-bottom: 20px;
-  color: #333;
+  margin-bottom: 18px;
+  color: var(--text);
+  font-weight: 700;
+  letter-spacing: 0.2px;
 }
 
+/* ===== Inputs ===== */
 .input-box {
   position: relative;
-  margin: 20px 0;
+  margin: 18px 0;
 }
 
 .input-box input {
   width: 100%;
-  padding: 13px 50px 13px 20px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
+  padding: 13px 50px 13px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
   outline: none;
   font-size: 16px;
-  background: #f9f9f9;
-  transition: border 0.3s ease;
+  background: var(--input-bg);
+  color: var(--text);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.input-box input:hover {
+  border-color: #c7cdd6; /* slightly darker on hover */
 }
 
 .input-box input:focus {
-  border-color: #6c63ff;
+  border-color: var(--primary);
+  /* Accessible focus ring */
+  box-shadow: 0 0 0 4px var(--focus-ring);
 }
 
+/* Better keyboard focus visibility */
+.input-box input:focus-visible {
+  outline: 0;
+}
+
+/* Input icon */
 .input-box i {
   position: absolute;
-  right: 20px;
+  right: 14px;
   top: 50%;
   transform: translateY(-50%);
   font-size: 20px;
-  color: #888;
+  color: var(--muted);
+  pointer-events: none;
 }
 
+/* ===== Button ===== */
 .btn {
   width: 100%;
   padding: 14px;
-  background: #6c63ff; /* Main button color */
+  background: linear-gradient(135deg, var(--primary), #8b5cf6); /* primary -> violet blend */
   border: none;
-  color: #fff;
-  font-weight: 600;
+  color: var(--primary-contrast);
+  font-weight: 700;
   cursor: pointer;
-  border-radius: 8px;
-  margin-top: 10px;
-  transition: background 0.3s ease;
+  border-radius: 10px;
+  margin-top: 12px;
+  transition: transform 0.08s ease, filter 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 8px 16px rgba(79, 70, 229, 0.24);
 }
 
 .btn:hover {
-  background: #574fd6;
+  filter: brightness(1.02);
+  box-shadow: 0 10px 20px rgba(79, 70, 229, 0.28);
 }
 
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 4px var(--focus-ring), 0 10px 20px rgba(79, 70, 229, 0.28);
+}
+
+/* Disabled button state */
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ===== Links & Text ===== */
 p {
   margin-top: 15px;
+  color: var(--muted);
 }
 
 p a {
-  color: #6c63ff;
+  color: var(--primary);
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
 }
 
-@media (max-width: 500px) {
-  .form-container {
-    padding: 30px;
-    width: 95%;
-  }
+p a:hover {
+  text-decoration: underline;
 }
 
-/* Inline message box */
+/* ===== Messages ===== */
 .msg {
   width: 100%;
   padding: 12px 14px;
-  border-radius: 8px;
-  margin-bottom: 10px;
+  border-radius: 10px;
+  margin-bottom: 12px;
   font-weight: 600;
   text-align: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  animation: fadeIn 0.4s ease;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+  animation: fadeIn 0.35s ease;
   opacity: 1;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease, transform 0.2s ease;
 }
 
 .msg.success {
-  background: #e0f7fa;
-  color: #00796b;
-  border: 1px solid #4db6ac;
+  background: var(--success-bg);
+  color: var(--success-text);
+  border: 1px solid var(--success-border);
 }
 
 .msg.error {
-  background: #ffebee;
-  color: #c62828;
-  border: 1px solid #f06292;
+  background: var(--error-bg);
+  color: var(--error-text);
+  border: 1px solid var(--error-border);
 }
 
+/* ===== Animations ===== */
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(-5px);
+    transform: translateY(-6px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 500px) {
+  .form-container {
+    padding: 28px;
+    width: 94%;
   }
 }
