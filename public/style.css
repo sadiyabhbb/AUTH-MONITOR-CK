@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-*{margin:0; padding:0; box-sizing:border-box; font-family:"Poppins",sans-serif;}
+*{margin:0; padding:0; box-sizing:border-box; font-family:"Inter",sans-serif;}
 
 body{
   min-height:100vh;
@@ -85,6 +85,8 @@ p a{
   text-align:center;
   box-shadow:0 4px 10px rgba(0,0,0,0.08);
   animation: fadeIn 0.4s ease;
+  opacity:1;
+  transition: opacity 0.5s ease;
 }
 .msg.success{
   background: linear-gradient(90deg, rgba(56,142,60,0.12), rgba(76,175,80,0.08));
