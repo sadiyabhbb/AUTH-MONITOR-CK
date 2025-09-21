@@ -4,41 +4,43 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Uptime Monitor Dashboard</title>
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="dashboard.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
-  <!-- Background canvas -->
+  <!-- Canvas Background -->
   <canvas id="waterCanvas"></canvas>
-
-  <!-- Message box -->
-  <div id="msgBox" class="msg"></div>
 
   <!-- Header -->
   <header>
-    <h1>🌐 Uptime Monitor</h1>
-    <p>Track your websites in real time</p>
+    <div>
+      <h1>🌐 Uptime Monitor</h1>
+      <p>Track your websites in real time</p>
+    </div>
     <button onclick="logout()" class="logout-btn">Logout</button>
   </header>
 
+  <!-- Main Content -->
   <main>
+    <!-- Control Panel -->
     <section class="control-panel">
       <input type="text" id="urlInput" placeholder="https://example.com" />
-      <button onclick="addURL()" class="btn">➕ Add</button>
+      <button onclick="addURL()">➕ Add</button>
     </section>
 
+    <!-- Monitored Links -->
     <section>
       <h2>Monitored Links</h2>
       <ul id="urlList" class="card-list"></ul>
     </section>
   </main>
 
+  <!-- Footer -->
   <footer>
     <p>⚡ Powered by Your Uptime Monitor</p>
   </footer>
 
-  <script src="main.js"></script>
+  <!-- JS -->
   <script src="dashboard.js"></script>
 </body>
 </html>
