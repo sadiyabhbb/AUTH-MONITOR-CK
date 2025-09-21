@@ -6,6 +6,8 @@ const session = require("express-session");
 const cors = require("cors");
 
 const app = express();
+
+// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -33,7 +35,7 @@ const saveUsers = users => fs.writeJSONSync(USERS_FILE, users, {spaces:2});
 
 // Ping URL function
 async function pingURL(item) {
-  try{
+  try {
     const start = Date.now();
     const res = await axios.get(item.url, { timeout: 10000 });
     const time = Date.now() - start;
@@ -54,7 +56,7 @@ async function pingURL(item) {
       lastChecked: new Date().toLocaleString("en-GB",{timeZone:"Asia/Dhaka"}),
       uptime
     };
-  }catch{
+  } catch {
     let uptime = "N/A";
     if(item.addedTime){
       const durationMs = Date.now() - item.addedTime;
@@ -76,15 +78,21 @@ async function pingURL(item) {
 // ===== Routes =====
 
 // Pages
-app.get("/login",(req,res)=>res.sendFile(path.join(__dirname,"public/login.html")));
-app.get("/register",(req,res)=>res.sendFile(path.join(__dirname,"public/register.html")));
-app.get("/dashboard.html",(req,res)=>{
+app.get("/login", (req,res)=>{
+  if(req.session.user) res.redirect("/dashboard.html");
+  else res.sendFile(path.join(__dirname,"public/login.html"));
+});
+app.get("/register", (req,res)=>{
+  if(req.session.user) res.redirect("/dashboard.html");
+  else res.sendFile(path.join(__dirname,"public/register.html"));
+});
+app.get("/dashboard.html", (req,res)=>{
   if(req.session.user) res.sendFile(path.join(__dirname,"public/dashboard.html"));
   else res.redirect("/login");
 });
 
-// Auth API
-app.post("/register",(req,res)=>{
+// ===== Auth API =====
+app.post("/register", (req,res)=>{
   const {username,email,password} = req.body;
   if(!username||!email||!password) return res.json({success:false,error:"All fields required"});
   const users = loadUsers();
@@ -94,23 +102,23 @@ app.post("/register",(req,res)=>{
   res.json({success:true});
 });
 
-app.post("/login",(req,res)=>{
+app.post("/login", (req,res)=>{
   const {username,password} = req.body;
   const users = loadUsers();
   const user = users.find(u=>u.username===username && u.password===password);
   if(!user) return res.json({success:false,error:"Invalid credentials"});
-  req.session.user={username:user.username,email:user.email};
+  req.session.user = {username:user.username,email:user.email};
   res.json({success:true});
 });
 
-app.post("/logout",(req,res)=>{
+app.post("/logout", (req,res)=>{
   req.session.destroy(err=>{
     if(err) return res.json({success:false,error:"Logout failed"});
     res.json({success:true});
   });
 });
 
-// Monitor API (protected)
+// ===== Monitor API (protected) =====
 app.get("/status", async (req,res)=>{
   if(!req.session.user) return res.status(401).json({error:"Unauthorized"});
   const urls = loadURLs();
@@ -128,7 +136,7 @@ app.post("/add", (req,res)=>{
   res.json({success:true});
 });
 
-app.post("/remove",(req,res)=>{
+app.post("/remove", (req,res)=>{
   if(!req.session.user) return res.status(401).json({error:"Unauthorized"});
   const {url} = req.body;
   let urls = loadURLs();
@@ -141,12 +149,10 @@ app.post("/remove",(req,res)=>{
 const PORT = process.env.PORT||3000;
 app.listen(PORT,()=>console.log(`🚀 Server running on port ${PORT}`));
 
-// Anti-sleep ping (ignore 401)
+// ===== Anti-sleep ping (ignore errors) =====
 setInterval(async()=>{
   try {
     await axios.get(`http://localhost:${PORT}/status`).catch(()=>{});
     console.log("🔄 Self-ping executed");
-  } catch(e) {
-    console.log("❌ Self-ping fail:", e.message);
-  }
+  } catch(e) { console.log("❌ Self-ping fail:", e.message); }
 }, 60*1000);
