@@ -1,11 +1,4 @@
-const container = document.querySelector('.container');
-const registerBtn = document.querySelector('.register-btn');
-const loginBtn = document.querySelector('.login-btn');
-
-registerBtn.addEventListener('click', () => container.classList.add('active'));
-loginBtn.addEventListener('click', () => container.classList.remove('active'));
-
-// ------------------- Show sliding message -------------------
+// ------------------ Show sliding message -------------------
 function showMessage(text, type='error', duration=3000) {
   let msgBox = document.getElementById('msgBox');
   if(!msgBox){
@@ -16,12 +9,9 @@ function showMessage(text, type='error', duration=3000) {
   }
   msgBox.textContent = text;
   msgBox.className = 'msg ' + (type==='success' ? 'success' : 'error');
-  
-  // Slide-in left
   msgBox.style.left = '20px';
   msgBox.style.opacity = '1';
 
-  // Slide-out after duration
   setTimeout(()=>{
     msgBox.style.left = '100%';
     msgBox.style.opacity = '0';
@@ -72,7 +62,7 @@ if(registerForm){
       const json = await res.json();
       if(json.success){
         showMessage("Registered successfully!", 'success');
-        setTimeout(()=> container.classList.remove('active'), 900);
+        setTimeout(()=> window.location.href="/login.html", 900);
       } else {
         showMessage(json.error || "Registration failed", 'error');
       }
@@ -80,5 +70,15 @@ if(registerForm){
       showMessage('Server error. Try again later.', 'error');
       console.error(err);
     }
+  });
+}
+
+// ------------------- Dashboard logout -------------------
+function logout(){
+  fetch("/logout",{method:"POST"})
+  .then(res=>res.json())
+  .then(json=>{
+    if(json.success) window.location.href="/login.html";
+    else showMessage(json.error || "Logout failed", 'error');
   });
 }
