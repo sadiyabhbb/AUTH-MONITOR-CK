@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Uptime Monitor Dashboard</title>
+  <link rel="stylesheet" href="./public/assets/dashboard.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <canvas id="waterCanvas"></canvas>
+
+  <header>
+    <div class="header-left">
+      <h1>🌐 Uptime Monitor</h1>
+      <p>Track your websites in real time</p>
+    </div>
+    <div class="header-right">
+      <button onclick="logout()" class="logout-btn">Logout</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="control-panel">
+      <input type="text" id="urlInput" placeholder="https://example.com" />
+      <button onclick="addURL()">➕ Add</button>
+    </section>
+
+    <section class="monitored-links">
+      <h2>Monitored Links</h2>
+      <ul id="urlList" class="card-list"></ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>⚡ Powered by Your Uptime Monitor</p>
+  </footer>
+
+  <script src="./public/assets/dashboard.js"></script>
+</body>
+  </html>
