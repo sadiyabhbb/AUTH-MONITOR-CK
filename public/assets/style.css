@@ -13,9 +13,24 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #89f7fe, #66a6ff); /* Simple gradient */
-  overflow: hidden; /* Bubble overflow hide */
+  background: linear-gradient(135deg, #89f7fe, #66a6ff);
+  overflow: hidden;
   position: relative;
+}
+
+/* ===== Logo Container ===== */
+.logo-container {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  gap: 15px;
+  z-index: 2;
+}
+
+.logo-container img {
+  height: 40px;
+  width: auto;
 }
 
 /* ===== Form Container ===== */
@@ -28,13 +43,16 @@ body {
   max-width: 400px;
   text-align: center;
   position: relative;
-  z-index: 2;
+  z-index: 1;
   transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 
 /* ===== Headings ===== */
 h1 {
-  margin-bottom: 25px;
   font-weight: 700;
   color: #333;
   letter-spacing: 1px;
@@ -43,7 +61,7 @@ h1 {
 /* ===== Input Boxes ===== */
 .input-box {
   position: relative;
-  margin: 18px 0;
+  width: 100%;
 }
 
 .input-box input {
@@ -67,8 +85,7 @@ h1 {
 .btn {
   width: 100%;
   padding: 14px;
-  margin-top: 12px;
-  background: #4facfe; /* Clean main color */
+  background: #4facfe;
   border: none;
   color: #fff;
   font-weight: 600;
@@ -85,7 +102,6 @@ h1 {
 
 /* ===== Paragraphs & Links ===== */
 p {
-  margin-top: 15px;
   font-size: 14px;
   color: #555;
 }
@@ -105,7 +121,6 @@ p a:hover {
   width: auto;
   padding: 12px 18px;
   border-radius: 12px;
-  margin-bottom: 10px;
   font-weight: 600;
   text-align: center;
   position: fixed;
@@ -133,9 +148,6 @@ p a:hover {
 /* ===== Optional Floating Bubbles ===== */
 .bubble {
   display: none; /* Off by default */
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0.2;
 }
 
 /* ===== Responsive ===== */
@@ -157,14 +169,23 @@ p a:hover {
   .input-box input {
     padding: 12px 16px;
   }
+
+  .logo-container img {
+    height: 30px;
+  }
 }
 
 @media (max-width: 400px) {
   h1 {
     font-size: 20px;
   }
+  
   .btn {
     padding: 10px;
     font-size: 14px;
+  }
+
+  .logo-container img {
+    height: 25px;
   }
 }
