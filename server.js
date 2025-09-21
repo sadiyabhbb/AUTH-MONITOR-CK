@@ -75,11 +75,20 @@ async function pingURL(item) {
 
 // ===== Routes =====
 
+// Root route (fix for Cannot GET /)
+app.get("/", (req, res) => {
+  if (req.session.user) {
+    res.redirect("/dashboard.html");
+  } else {
+    res.redirect("/login");
+  }
+});
+
 // Serve pages
 app.get("/login",(req,res)=>res.sendFile(path.join(__dirname,"public/login.html")));
 app.get("/register",(req,res)=>res.sendFile(path.join(__dirname,"public/register.html")));
 app.get("/dashboard.html",(req,res)=>{
-  if(req.session.user) res.sendFile(path.join(__dirname,"public/index.html"));
+  if(req.session.user) res.sendFile(path.join(__dirname,"public/dashboard.html"));
   else res.redirect("/login");
 });
 
