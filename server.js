@@ -9,9 +9,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "public")));
 
-// ===== Session middleware =====
+// Serve static assets
+app.use('/assets', express.static(path.join(__dirname, 'public/assets')));
+app.use('/login.html', express.static(path.join(__dirname, 'public/login.html')));
+app.use('/register.html', express.static(path.join(__dirname, 'public/register.html')));
+
+// Session middleware
 app.use(session({
   secret: "uptime-monitor-secret",
   resave: false,
@@ -19,19 +23,19 @@ app.use(session({
   cookie: { maxAge: 24*60*60*1000 } // 1 day
 }));
 
-// ===== Data files =====
+// Data files
 const DATA_FILE = path.join(__dirname, "data/urls.json");
 const USERS_FILE = path.join(__dirname, "data/users.json");
 fs.ensureFileSync(DATA_FILE);
 fs.ensureFileSync(USERS_FILE);
 
-// ===== Load/Save helpers =====
-const loadURLs = () => fs.readJSONSync(DATA_FILE, {throws:false}) || [];
+// Load/Save functions
+const loadURLs = ()=> fs.readJSONSync(DATA_FILE, {throws:false}) || [];
 const saveURLs = urls => fs.writeJSONSync(DATA_FILE, urls, {spaces:2});
-const loadUsers = () => fs.readJSONSync(USERS_FILE, {throws:false}) || [];
+const loadUsers = ()=> fs.readJSONSync(USERS_FILE, {throws:false}) || [];
 const saveUsers = users => fs.writeJSONSync(USERS_FILE, users, {spaces:2});
 
-// ===== Ping URL function =====
+// Ping URL function
 async function pingURL(item) {
   try{
     const start = Date.now();
@@ -54,7 +58,7 @@ async function pingURL(item) {
       lastChecked: new Date().toLocaleString("en-GB",{timeZone:"Asia/Dhaka"}),
       uptime
     };
-  } catch {
+  }catch{
     let uptime = "N/A";
     if(item.addedTime){
       const durationMs = Date.now() - item.addedTime;
@@ -74,22 +78,19 @@ async function pingURL(item) {
 }
 
 // ===== Routes =====
+app.get("/login",(req,res)=> res.sendFile(path.join(__dirname,"public/login.html")));
+app.get("/register",(req,res)=> res.sendFile(path.join(__dirname,"public/register.html")));
 
-// Root route
-app.get("/", (req, res) => {
-  if(req.session.user) res.redirect("/dashboard.html");
-  else res.redirect("/login");
-});
-
-// Pages
-app.get("/login",(req,res)=>res.sendFile(path.join(__dirname,"public/login.html")));
-app.get("/register",(req,res)=>res.sendFile(path.join(__dirname,"public/register.html")));
+// Protected dashboard route
 app.get("/dashboard.html",(req,res)=>{
-  if(req.session.user) res.sendFile(path.join(__dirname,"public/dashboard.html"));
-  else res.redirect("/login");
+  if(req.session.user){
+    res.sendFile(path.join(__dirname, "dashboard.html"));
+  } else {
+    res.redirect("/login");
+  }
 });
 
-// ===== Auth API =====
+// Auth API
 app.post("/register",(req,res)=>{
   const {username,email,password} = req.body;
   if(!username||!email||!password) return res.json({success:false,error:"All fields required"});
@@ -116,7 +117,7 @@ app.post("/logout",(req,res)=>{
   });
 });
 
-// ===== Monitor API (protected) =====
+// Monitor API (protected)
 app.get("/status", async (req,res)=>{
   if(!req.session.user) return res.status(401).json({error:"Unauthorized"});
   const urls = loadURLs();
@@ -146,13 +147,3 @@ app.post("/remove",(req,res)=>{
 // ===== Start Server =====
 const PORT = process.env.PORT||3000;
 app.listen(PORT,()=>console.log(`🚀 Server running on port ${PORT}`));
-
-// ===== Anti-sleep ping (ignore errors) =====
-setInterval(async()=>{
-  try {
-    await axios.get(`http://localhost:${PORT}/status`).catch(()=>{});
-    console.log("🔄 Self-ping executed");
-  } catch(e) {
-    console.log("❌ Self-ping fail:", e.message);
-  }
-}, 60*1000);
