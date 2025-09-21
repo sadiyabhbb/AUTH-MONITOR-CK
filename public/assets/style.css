@@ -12,21 +12,21 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #74ebd5, #ACB6E5); /* Soft gradient */
+  background: linear-gradient(135deg, #89f7fe, #66a6ff); /* Soft, eye-catching gradient */
 }
 
 .form-container {
   background: #ffffff;
   padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  border-radius: 15px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
   width: 90%;
   max-width: 400px;
   text-align: center;
 }
 
 h1 {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   color: #333;
 }
 
@@ -38,16 +38,17 @@ h1 {
 .input-box input {
   width: 100%;
   padding: 13px 50px 13px 20px;
-  border-radius: 8px;
+  border-radius: 10px;
   border: 1px solid #ddd;
   outline: none;
   font-size: 16px;
-  background: #f9f9f9;
-  transition: border 0.3s ease;
+  background: #f5f7fa;
+  transition: all 0.3s ease;
 }
 
 .input-box input:focus {
-  border-color: #6c63ff;
+  border-color: #4facfe; /* Focus color */
+  box-shadow: 0 0 5px rgba(79, 172, 254, 0.5);
 }
 
 .input-box i {
@@ -62,18 +63,19 @@ h1 {
 .btn {
   width: 100%;
   padding: 14px;
-  background: #6c63ff; /* Main button color */
+  background: linear-gradient(90deg, #4facfe, #00f2fe); /* Gradient button */
   border: none;
   color: #fff;
   font-weight: 600;
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: 10px;
   margin-top: 10px;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .btn:hover {
-  background: #574fd6;
+  background: linear-gradient(90deg, #00f2fe, #4facfe);
+  transform: translateY(-2px);
 }
 
 p {
@@ -81,11 +83,17 @@ p {
 }
 
 p a {
-  color: #6c63ff;
+  color: #4facfe;
   text-decoration: none;
   font-weight: 500;
+  transition: color 0.3s ease;
 }
 
+p a:hover {
+  color: #00f2fe;
+}
+
+/* Responsive */
 @media (max-width: 500px) {
   .form-container {
     padding: 30px;
@@ -97,14 +105,14 @@ p a {
 .msg {
   width: 100%;
   padding: 12px 14px;
-  border-radius: 8px;
+  border-radius: 10px;
   margin-bottom: 10px;
   font-weight: 600;
   text-align: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
   animation: fadeIn 0.4s ease;
   opacity: 1;
-  transition: opacity 0.5s ease;
+  transition: all 0.5s ease;
 }
 
 .msg.success {
