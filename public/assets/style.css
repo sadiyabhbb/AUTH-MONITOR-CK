@@ -12,59 +12,69 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #89f7fe, #66a6ff); /* Soft blue gradient */
-  overflow: hidden;
+  background: linear-gradient(135deg, #89f7fe, #66a6ff);
   position: relative;
-  padding: 20px;
+  overflow: hidden;
 }
 
 /* ---------------- Form Container ---------------- */
 .form-container {
-  background: rgba(255,255,255,0.95);
-  padding: 40px 25px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 40px 35px;
   border-radius: 20px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-  width: 100%;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+  width: 90%;
   max-width: 400px;
   text-align: center;
   position: relative;
   z-index: 2;
+  transition: all 0.3s ease;
 }
 
-/* Heading */
 h1 {
   margin-bottom: 25px;
   color: #333;
-  font-size: 24px;
   font-weight: 700;
+  letter-spacing: 1px;
 }
 
-/* Input */
+/* ---------------- Input Boxes ---------------- */
 .input-box {
   position: relative;
-  margin: 15px 0;
+  margin: 20px 0;
 }
+
 .input-box input {
   width: 100%;
-  padding: 15px 20px;
+  padding: 15px 50px 15px 20px;
   border-radius: 12px;
   border: 1px solid #ddd;
+  outline: none;
   font-size: 16px;
   background: #f9f9f9;
-  outline: none;
   transition: all 0.3s ease;
 }
+
 .input-box input:focus {
-  border-color: #00c6ff; /* Accent color */
-  box-shadow: 0 5px 15px rgba(0,198,255,0.35);
+  border-color: #4facfe;
+  box-shadow: 0 5px 15px rgba(79,172,254,0.35);
   background: #fff;
 }
 
-/* Button */
+.input-box i {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #888;
+}
+
+/* ---------------- Button ---------------- */
 .btn {
   width: 100%;
   padding: 15px;
-  background: linear-gradient(90deg, #00c6ff, #0072ff);
+  background: linear-gradient(90deg, #4facfe, #00f2fe);
   border: none;
   color: #fff;
   font-weight: 600;
@@ -76,76 +86,99 @@ h1 {
   transition: all 0.4s ease;
   box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
+
 .btn:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   box-shadow: 0 12px 25px rgba(0,0,0,0.15);
-  background: linear-gradient(90deg, #0072ff, #00c6ff);
+  background: linear-gradient(90deg, #00f2fe, #4facfe);
 }
 
-/* Paragraph & links */
+/* ---------------- Paragraph Links ---------------- */
 p {
-  margin-top: 15px;
+  margin-top: 20px;
   font-size: 14px;
   color: #555;
 }
+
 p a {
-  color: #0072ff;
-  text-decoration: none;
+  color: #4facfe;
   font-weight: 500;
-}
-p a:hover {
-  color: #00c6ff;
+  text-decoration: none;
+  transition: all 0.3s ease;
 }
 
-/* Message box */
+p a:hover {
+  color: #00f2fe;
+}
+
+/* ---------------- Message Box ---------------- */
 .msg {
-  width: calc(100% - 40px);
-  max-width: 400px;
-  padding: 12px 14px;
+  width: 100%;
+  padding: 12px 15px;
   border-radius: 12px;
+  margin-bottom: 15px;
   font-weight: 600;
   text-align: center;
   box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  animation: slideIn 0.4s ease;
+  opacity: 1;
+  transition: all 0.5s ease;
   position: fixed;
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 3;
-  opacity: 1;
-  transition: all 0.5s ease;
+  z-index: 999;
 }
-.msg.success { background: #e0f7fa; color: #00796b; border: 1px solid #4db6ac; }
-.msg.error { background: #ffebee; color: #c62828; border: 1px solid #f06292; }
 
-/* ---------------- Floating Bubbles ---------------- */
-.bubble {
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0.5;
-  animation-name: floatUp;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
+.msg.success {
+  background: #e0f7fa;
+  color: #00796b;
+  border: 1px solid #4db6ac;
 }
-@keyframes floatUp {
-  0% { transform: translateY(0) scale(1);}
-  50% { transform: translateY(-50px) scale(1.1);}
-  100% { transform: translateY(0) scale(1);}
+
+.msg.error {
+  background: #ffebee;
+  color: #c62828;
+  border: 1px solid #f06292;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translate(-50%, -20px);}
+  to { opacity: 1; transform: translate(-50%, 0);}
 }
 
 /* ---------------- Responsive ---------------- */
 @media (max-width: 600px) {
   .form-container {
-    padding: 30px 20px;
-    width: 100%;
+    padding: 30px 25px;
+    width: 95%;
   }
-  h1 { font-size: 22px; }
-  .input-box input { padding: 12px 15px; font-size: 15px; }
-  .btn { padding: 12px; font-size: 15px; }
-  p { font-size: 13px; }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  .btn {
+    padding: 12px;
+    font-size: 15px;
+  }
+
+  .input-box input {
+    padding: 12px 45px 12px 15px;
+  }
+
+  p {
+    font-size: 13px;
+  }
 }
 
 @media (max-width: 400px) {
-  h1 { font-size: 20px; }
-  .input-box input { padding: 10px 12px; font-size: 14px; }
-  .btn { padding: 10px; font-size: 14px; }
+  h1 {
+    font-size: 20px;
+  }
+
+  .btn {
+    padding: 10px;
+    font-size: 14px;
+  }
 }
