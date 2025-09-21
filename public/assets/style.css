@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*{margin:0; padding:0; box-sizing:border-box; font-family:"Inter",sans-serif;}
+
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background: linear-gradient(135deg,#4e54c8,#8f94fb);
+}
+
+.form-container{
+  background:#fff;
+  padding:40px;
+  border-radius:12px;
+  box-shadow:0 0 20px rgba(0,0,0,0.3);
+  width:90%;
+  max-width:400px;
+}
+
+h1{text-align:center; margin-bottom:20px; color:#333;}
+.input-box{position: relative; margin:20px 0;}
+.input-box input{
+  width:100%;
+  padding:13px 50px 13px 20px;
+  border-radius:8px;
+  border:none; outline:none;
+  font-size:16px; background:#eee;
+}
+.input-box i{position:absolute; right:20px; top:50%; transform: translateY(-50%); font-size:20px;}
+.btn{width:100%; padding:14px; background:#4e54c8; border:none; color:#fff; font-weight:600; cursor:pointer; border-radius:8px; margin-top:10px; transition: background 0.3s ease;}
+.btn:hover{background:#3b40a5;}
+p{text-align:center; margin-top:15px;}
+p a{color:#4e54c8; text-decoration:none; font-weight:500;}
+@media(max-width:500px){.form-container{ padding:30px; width:95%; }}
+
+/* ✅ Message box */
+.msg{
+  width:100%;
+  padding:12px 14px;
+  border-radius:8px;
+  margin-bottom:10px;
+  font-weight:600;
+  text-align:center;
+  box-shadow:0 4px 10px rgba(0,0,0,0.08);
+  animation: fadeIn 0.4s ease;
+  opacity:1;
+  transition: opacity 0.5s ease, left 0.5s ease;
+  position:fixed; top:20px; left:20px; z-index:9999;
+}
+.msg.success{background: linear-gradient(90deg, rgba(56,142,60,0.12), rgba(76,175,80,0.08)); color:#2e7d32; border:1px solid rgba(76,175,80,0.18);}
+.msg.error{background: linear-gradient(90deg, rgba(229,57,53,0.06), rgba(244,67,54,0.03)); color:#c62828; border:1px solid rgba(244,67,54,0.12);}
+@keyframes fadeIn { from { opacity:0; transform:translateY(-5px);} to { opacity:1; transform:translateY(0);} }
