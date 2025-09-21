@@ -1,69 +1,58 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
-}
-
+/* Body */
 body {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   background: linear-gradient(135deg, #74ebd5, #ACB6E5);
-  overflow: hidden; /* Bubble overflow hide */
+  overflow: hidden;
   position: relative;
+  padding: 20px; /* Mobile padding */
 }
 
-/* ---------------- Form Container ---------------- */
+/* Form container */
 .form-container {
   background: rgba(255,255,255,0.95);
-  padding: 40px;
+  padding: 40px 25px;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  width: 90%;
+  width: 100%;
   max-width: 400px;
   text-align: center;
   position: relative;
-  z-index: 2; /* Bubble এর উপর থাকুক */
+  z-index: 2;
+  box-sizing: border-box;
 }
 
+/* Heading */
 h1 {
   margin-bottom: 20px;
   color: #333;
+  font-size: 24px;
 }
 
+/* Input */
 .input-box {
   position: relative;
-  margin: 20px 0;
+  margin: 15px 0;
 }
-
 .input-box input {
   width: 100%;
-  padding: 13px 50px 13px 20px;
+  padding: 13px 45px 13px 15px;
   border-radius: 8px;
   border: 1px solid #ddd;
-  outline: none;
   font-size: 16px;
   background: #f9f9f9;
-  transition: border 0.3s ease;
+  outline: none;
+  transition: all 0.3s ease;
 }
-
 .input-box input:focus {
   border-color: #6c63ff;
+  box-shadow: 0 5px 15px rgba(79,172,254,0.35);
+  background: #fff;
 }
 
-.input-box i {
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 20px;
-  color: #888;
-}
-
+/* Button */
 .btn {
   width: 100%;
   padding: 14px;
@@ -76,58 +65,43 @@ h1 {
   margin-top: 10px;
   transition: background 0.3s ease;
 }
-
 .btn:hover {
   background: #574fd6;
 }
 
+/* Paragraph & links */
 p {
   margin-top: 15px;
+  font-size: 14px;
+  color: #555;
 }
-
 p a {
   color: #6c63ff;
   text-decoration: none;
   font-weight: 500;
 }
 
-/* ---------------- Message Box ---------------- */
+/* Message box */
 .msg {
-  width: 100%;
+  width: calc(100% - 40px);
+  max-width: 400px;
   padding: 12px 14px;
   border-radius: 8px;
-  margin-bottom: 10px;
   font-weight: 600;
   text-align: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  animation: fadeIn 0.4s ease;
-  opacity: 1;
   position: fixed;
-  left: 20px;
   top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 3;
+  opacity: 1;
   transition: all 0.5s ease;
 }
+.msg.success { background: #e0f7fa; color: #00796b; border: 1px solid #4db6ac; }
+.msg.error { background: #ffebee; color: #c62828; border: 1px solid #f06292; }
 
-.msg.success {
-  background: #e0f7fa;
-  color: #00796b;
-  border: 1px solid #4db6ac;
-}
-
-.msg.error {
-  background: #ffebee;
-  color: #c62828;
-  border: 1px solid #f06292;
-}
-
-/* ---------------- Fade-in Effect ---------------- */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-5px);}
-  to { opacity: 1; transform: translateY(0);}
-}
-
-/* ---------------- Floating Bubbles ---------------- */
+/* Floating bubbles */
 .bubble {
   position: absolute;
   border-radius: 50%;
@@ -136,17 +110,26 @@ p a {
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
 }
-
 @keyframes floatUp {
-  0% { transform: translateY(0) scale(1);}
-  50% { transform: translateY(-50px) scale(1.1);}
-  100% { transform: translateY(0) scale(1);}
+  0% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-50px) scale(1.1); }
+  100% { transform: translateY(0) scale(1); }
 }
 
-/* ---------------- Responsive ---------------- */
-@media (max-width: 500px) {
+/* ================= Responsive ================= */
+@media (max-width: 600px) {
   .form-container {
-    padding: 30px;
-    width: 95%;
+    padding: 30px 20px;
+    width: 100%;
   }
+  h1 { font-size: 22px; }
+  .input-box input { padding: 12px 15px; font-size: 15px; }
+  .btn { padding: 12px; font-size: 15px; }
+  p { font-size: 13px; }
+}
+
+@media (max-width: 400px) {
+  h1 { font-size: 20px; }
+  .input-box input { padding: 10px 12px; font-size: 14px; }
+  .btn { padding: 10px; font-size: 14px; }
 }
