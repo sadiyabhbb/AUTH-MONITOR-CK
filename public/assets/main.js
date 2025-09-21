@@ -1,4 +1,31 @@
-// ---------- Show sliding message ----------
+// ================= Floating Bubbles =================
+const body = document.body;
+
+for (let i = 0; i < 15; i++) {
+  const bubble = document.createElement('div');
+  bubble.classList.add('bubble');
+  
+  // Random size
+  const size = Math.random() * 50 + 20; 
+  bubble.style.width = `${size}px`;
+  bubble.style.height = `${size}px`;
+  
+  // Random position
+  bubble.style.left = `${Math.random() * 100}%`;
+  bubble.style.top = `${Math.random() * 100}%`;
+
+  // Random color
+  const colors = ['#FF6B6B', '#FFD93D', '#6BCB77', '#4D96FF', '#9D4EDD'];
+  bubble.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+  // Random animation duration
+  bubble.style.animationDuration = `${Math.random() * 10 + 5}s`;
+  bubble.style.animationDelay = `${Math.random() * 5}s`;
+
+  body.appendChild(bubble);
+}
+
+// ================= Show sliding message =================
 function showMessage(text, type='success', duration=3000){
   let msgBox = document.getElementById('msgBox');
   if(!msgBox){
@@ -15,41 +42,59 @@ function showMessage(text, type='success', duration=3000){
   setTimeout(()=>{ msgBox.remove(); }, duration+500);
 }
 
-// ---------- Login ----------
+// ================= Login =================
 const loginForm = document.getElementById("loginForm");
 if(loginForm){
   loginForm.addEventListener("submit", async e=>{
     e.preventDefault();
     const data = { username:e.target.username.value, password:e.target.password.value };
     try {
-      const res = await fetch("/login", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(data) });
+      const res = await fetch("/login", { 
+        method:"POST", 
+        headers:{"Content-Type":"application/json"}, 
+        body:JSON.stringify(data) 
+      });
       const json = await res.json();
       if(json.success){
         showMessage('Login successful! Redirecting...', 'success');
         setTimeout(()=> window.location.href="/dashboard", 800);
       } else showMessage(json.error || "Login failed", 'error');
-    } catch(err){ showMessage('Server error. Try again.', 'error'); console.error(err); }
+    } catch(err){ 
+      showMessage('Server error. Try again.', 'error'); 
+      console.error(err); 
+    }
   });
 }
 
-// ---------- Register ----------
+// ================= Register =================
 const registerForm = document.getElementById("registerForm");
 if(registerForm){
   registerForm.addEventListener("submit", async e=>{
     e.preventDefault();
-    const data = { username:e.target.username.value, email:e.target.email.value, password:e.target.password.value };
+    const data = { 
+      username:e.target.username.value, 
+      email:e.target.email.value, 
+      password:e.target.password.value 
+    };
     try {
-      const res = await fetch("/register",{ method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(data) });
+      const res = await fetch("/register",{ 
+        method:"POST", 
+        headers:{"Content-Type":"application/json"}, 
+        body:JSON.stringify(data) 
+      });
       const json = await res.json();
       if(json.success){
         showMessage("Registered successfully!", 'success');
         setTimeout(()=> window.location.href="/login", 800);
       } else showMessage(json.error || "Registration failed",'error');
-    } catch(err){ showMessage('Server error. Try again.', 'error'); console.error(err);}
+    } catch(err){ 
+      showMessage('Server error. Try again.', 'error'); 
+      console.error(err);
+    }
   });
 }
 
-// ---------- Logout ----------
+// ================= Logout =================
 function logout(){
   fetch("/logout",{method:"POST"}).then(res=>res.json()).then(json=>{
     if(json.success) window.location.href="/login";
