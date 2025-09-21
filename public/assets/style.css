@@ -1,101 +1,131 @@
-/* ===== Base neutrals & shared tokens ===== */
-:root {
-  /* neutrals */
-  --card-bg:  #ffffff;
-  --text:     #1f2937;   /* slate-800 */
-  --muted:    #6b7280;   /* slate-500 */
-  --border:   #e5e7eb;
-  --input-bg: #f9fafb;
-  --shadow:   0 10px 25px rgba(17, 24, 39, 0.12);
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-  /* status */
-  --success-bg:     #ecfdf5;
-  --success-text:   #065f46;
-  --success-border: #34d399;
-
-  --error-bg:       #fef2f2;
-  --error-text:     #991b1b;
-  --error-border:   #fca5a5;
-
-  /* default theme = Indigo (you can override by adding body class) */
-  --primary:          #4f46e5;
-  --primary-hover:    #4338ca;
-  --primary-contrast: #ffffff;
-  --bg-start:         #f6f8ff;
-  --bg-end:           #eef2ff;
-  --focus-ring:       rgba(79, 70, 229, 0.35);
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
 }
 
-/* ===== Dark mode neutrals (auto) ===== */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --card-bg:  #0f172a;   /* slate-900 */
-    --text:     #e5e7eb;   /* slate-200 */
-    --muted:    #94a3b8;   /* slate-400 */
-    --border:   #1f2937;
-    --input-bg: #0b1220;
-    --shadow:   0 10px 30px rgba(0, 0, 0, 0.4);
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #74ebd5, #ACB6E5); /* Soft gradient */
+}
+
+.form-container {
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.input-box {
+  position: relative;
+  margin: 20px 0;
+}
+
+.input-box input {
+  width: 100%;
+  padding: 13px 50px 13px 20px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  outline: none;
+  font-size: 16px;
+  background: #f9f9f9;
+  transition: border 0.3s ease;
+}
+
+.input-box input:focus {
+  border-color: #6c63ff;
+}
+
+.input-box i {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #888;
+}
+
+.btn {
+  width: 100%;
+  padding: 14px;
+  background: #6c63ff; /* Main button color */
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 8px;
+  margin-top: 10px;
+  transition: background 0.3s ease;
+}
+
+.btn:hover {
+  background: #574fd6;
+}
+
+p {
+  margin-top: 15px;
+}
+
+p a {
+  color: #6c63ff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+@media (max-width: 500px) {
+  .form-container {
+    padding: 30px;
+    width: 95%;
   }
 }
 
-/* ===== Theme presets (add one class to <body>) ===== */
-
-/* 1) Indigo – modern SaaS */
-body.theme-indigo {
-  --primary:       #4f46e5;
-  --primary-hover: #4338ca;
-  --bg-start:      #f6f8ff;
-  --bg-end:        #eef2ff;
-  --focus-ring:    rgba(79, 70, 229, 0.35);
+/* Inline message box */
+.msg {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  animation: fadeIn 0.4s ease;
+  opacity: 1;
+  transition: opacity 0.5s ease;
 }
-@media (prefers-color-scheme: dark) {
-  body.theme-indigo {
-    --bg-start: #0b1220;
-    --bg-end:   #0e1726;
+
+.msg.success {
+  background: #e0f7fa;
+  color: #00796b;
+  border: 1px solid #4db6ac;
+}
+
+.msg.error {
+  background: #ffebee;
+  color: #c62828;
+  border: 1px solid #f06292;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
   }
-}
-
-/* 2) Blue – corporate & trusted */
-body.theme-blue {
-  --primary:       #2563eb;
-  --primary-hover: #1d4ed8;
-  --bg-start:      #eff6ff;
-  --bg-end:        #e0f2fe;
-  --focus-ring:    rgba(37, 99, 235, 0.35);
-}
-@media (prefers-color-scheme: dark) {
-  body.theme-blue {
-    --bg-start: #0b1220;
-    --bg-end:   #0f172a;
-  }
-}
-
-/* 3) Teal – clean fintech vibe */
-body.theme-teal {
-  --primary:       #0d9488;
-  --primary-hover: #0f766e;
-  --bg-start:      #ecfeff;
-  --bg-end:        #e6fffb;
-  --focus-ring:    rgba(13, 148, 136, 0.35);
-}
-@media (prefers-color-scheme: dark) {
-  body.theme-teal {
-    --bg-start: #0a1420;
-    --bg-end:   #0d1b26;
-  }
-}
-
-/* 4) Emerald – calm & balanced */
-body.theme-emerald {
-  --primary:       #059669;
-  --primary-hover: #047857;
-  --bg-start:      #ecfdf5;
-  --bg-end:        #d1fae5;
-  --focus-ring:    rgba(5, 150, 105, 0.35);
-}
-@media (prefers-color-scheme: dark) {
-  body.theme-emerald {
-    --bg-start: #0a1613;
-    --bg-end:   #0c1c17;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
