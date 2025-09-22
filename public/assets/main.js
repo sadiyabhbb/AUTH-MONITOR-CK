@@ -1,27 +1,18 @@
 // ================= Show sliding message =================
 function showMessage(text, type='success', duration=3000){
-  const msgBox = document.createElement('div');
-  msgBox.className = 'msg ' + (type==='success' ? 'success' : 'error');
+  let msgBox = document.getElementById('msgBox');
+  if(!msgBox){
+    msgBox = document.createElement('div');
+    msgBox.id = 'msgBox';
+    msgBox.className = 'msg';
+    document.body.appendChild(msgBox);
+  }
   msgBox.textContent = text;
+  msgBox.className = 'msg ' + (type==='success' ? 'success' : 'error');
+  msgBox.style.opacity = '1';
 
-  // Add to body
-  document.body.appendChild(msgBox);
-
-  // Animate in
-  msgBox.style.opacity = '0';
-  msgBox.style.transform = 'translateX(-50%) translateY(-20px)';
-  setTimeout(()=>{
-    msgBox.style.transition = 'all 0.4s ease';
-    msgBox.style.opacity = '1';
-    msgBox.style.transform = 'translateX(-50%) translateY(0)';
-  }, 10);
-
-  // Animate out & remove
-  setTimeout(()=>{
-    msgBox.style.opacity = '0';
-    msgBox.style.transform = 'translateX(-50%) translateY(-20px)';
-    setTimeout(()=> msgBox.remove(), 400);
-  }, duration);
+  setTimeout(()=>{ msgBox.style.opacity='0'; }, duration);
+  setTimeout(()=>{ msgBox.remove(); }, duration+500);
 }
 
 // ================= Login =================
