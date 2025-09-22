@@ -36,26 +36,35 @@ body {
 }
 
 /* =====================================
-   🗂️ Form Container & Card Effect
+   🗂️ Form Container & Card Effect (Upgraded)
    ===================================== */
 .form-container {
-  background: #ffffff;
-  padding: 40px 35px;
-  border-radius: 24px;
-  box-shadow: 0 15px 40px var(--shadow-color);
+  background: rgba(255, 255, 255, 0.95); /* light clean */
+  padding: 45px 40px;
+  border-radius: 28px;
   width: 90%;
-  max-width: 400px;
+  max-width: 420px;
   text-align: center;
   position: relative;
   z-index: 2;
-  transition: all 0.5s ease-in-out;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
+
+  /* Premium shadow */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15),
+              0 20px 40px rgba(0, 0, 0, 0.08);
+
+  /* Smooth border with subtle gradient */
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background-clip: padding-box;
+  backdrop-filter: blur(8px);
+
+  transition: all 0.4s ease-in-out;
 }
 
 .form-container:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2),
+              0 25px 50px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.9);
 }
 
 /* =====================================
@@ -228,4 +237,4 @@ p a:hover {
   position: absolute;
   border-radius: 50%;
   opacity: 0.2;
-   }
+}
