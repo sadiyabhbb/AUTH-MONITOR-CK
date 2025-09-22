@@ -1,6 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-/* ===== Reset & Font ===== */
+/* =====================================
+   🎨 Color Palette & Variables
+   ===================================== */
+:root {
+  --primary-color: #6a11cb;
+  --secondary-color: #2575fc;
+  --text-color: #222;
+  --subtle-text-color: #666;
+  --bg-dark: #0f0c29;
+  --bg-medium: #3a3b5c;
+  --input-bg: #eef2f5;
+  --shadow-color: rgba(0, 0, 0, 0.2);
+}
+
+/* =====================================
+   📦 Global Styles & Reset
+   ===================================== */
 * {
   margin: 0;
   padding: 0;
@@ -13,108 +29,139 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #89f7fe, #66a6ff);
+  background: linear-gradient(135deg, var(--bg-dark), var(--bg-medium));
+  color: var(--text-color);
   overflow: hidden;
   position: relative;
 }
 
-/* ===== Form Container ===== */
+/* =====================================
+   🗂️ Form Container & Card Effect
+   ===================================== */
 .form-container {
-  background: rgba(255, 255, 255, 0.95);
+  background: #ffffff;
   padding: 40px 35px;
-  border-radius: 16px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  border-radius: 24px;
+  box-shadow: 0 15px 40px var(--shadow-color);
   width: 90%;
   max-width: 400px;
   text-align: center;
   position: relative;
   z-index: 2;
-  transition: all 0.3s ease;
+  transition: all 0.5s ease-in-out;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
 }
 
-/* ===== Headings ===== */
+.form-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+/* =====================================
+   ✍️ Headings
+   ===================================== */
 h1 {
   margin-bottom: 25px;
   font-weight: 700;
-  color: #333;
-  letter-spacing: 1px;
+  color: var(--text-color);
+  letter-spacing: 1.2px;
+  font-size: 28px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* ===== Input Boxes ===== */
+/* =====================================
+   📥 Input Boxes & Icons
+   ===================================== */
 .input-box {
   position: relative;
-  margin: 18px 0;
+  margin: 20px 0;
 }
 
 .input-box input {
   width: 100%;
-  padding: 14px 50px 14px 20px; /* right padding for icon */
+  padding: 16px 50px 16px 20px;
   border-radius: 12px;
-  border: 1px solid #ddd;
+  border: 2px solid transparent;
   outline: none;
   font-size: 16px;
-  background: #f9f9f9;
-  transition: all 0.3s ease;
+  background: var(--input-bg);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  color: var(--text-color);
 }
 
 .input-box input:focus {
-  border-color: #4facfe;
-  box-shadow: 0 4px 12px rgba(79, 172, 254, 0.3);
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 15px rgba(37, 117, 252, 0.2);
   background: #fff;
 }
 
-/* ===== Icons inside input ===== */
 .input-box i {
   position: absolute;
-  right: 15px; /* distance from right */
+  right: 18px;
   top: 50%;
   transform: translateY(-50%);
   font-size: 20px;
-  color: #888;
-  pointer-events: none; /* won't block input click */
+  color: var(--subtle-text-color);
+  pointer-events: none;
+  transition: color 0.3s ease;
 }
 
-/* ===== Buttons ===== */
+.input-box input:focus + i {
+  color: var(--primary-color);
+}
+
+/* =====================================
+   🚀 Buttons
+   ===================================== */
 .btn {
   width: 100%;
-  padding: 14px;
-  margin-top: 12px;
-  background: #4facfe;
+  padding: 16px;
+  margin-top: 20px;
+  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
   border: none;
   color: #fff;
-  font-weight: 600;
+  font-weight: 700;
   border-radius: 12px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
 }
 
 .btn:hover {
-  background: #00f2fe;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  background: linear-gradient(45deg, #7b21e8, #3b88fd);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
-/* ===== Paragraphs & Links ===== */
+/* =====================================
+   📝 Paragraphs & Links
+   ===================================== */
 p {
-  margin-top: 15px;
+  margin-top: 18px;
   font-size: 14px;
-  color: #555;
+  color: var(--subtle-text-color);
 }
 
 p a {
-  color: #4facfe;
-  font-weight: 500;
+  color: var(--primary-color);
+  font-weight: 600;
   text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 p a:hover {
-  color: #00f2fe;
+  color: var(--secondary-color);
+  text-decoration: underline;
 }
 
-/* ===== Message Box ===== */
+/* =====================================
+   💬 Message Box (Success & Error)
+   ===================================== */
 .msg {
   width: auto;
-  padding: 12px 18px;
+  padding: 12px 20px;
   border-radius: 12px;
   margin-bottom: 10px;
   font-weight: 600;
@@ -130,32 +177,41 @@ p a:hover {
 }
 
 .msg.success {
-  background: #e0f7fa;
-  color: #00796b;
-  border: 1px solid #4db6ac;
+  background: #e6ffec;
+  color: #00600a;
+  border: 1px solid #72a981;
 }
 
 .msg.error {
-  background: #ffebee;
-  color: #c62828;
-  border: 1px solid #f06292;
+  background: #ffebeb;
+  color: #c0392b;
+  border: 1px solid #e74c3c;
 }
 
-/* ===== Floating Bubbles (OFF) ===== */
-.bubble {
-  display: none; /* turned off */
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0.2;
-}
-
-/* ===== Responsive ===== */
+/* =====================================
+   🌐 Responsive Design
+   ===================================== */
 @media (max-width: 600px) {
   .form-container {
-    padding: 28px 20px;
+    padding: 30px 25px;
     width: 95%;
   }
   
+  h1 {
+    font-size: 24px;
+  }
+  
+  .btn {
+    padding: 14px;
+    font-size: 16px;
+  }
+  
+  .input-box input {
+    padding: 14px 45px 14px 18px;
+  }
+}
+
+@media (max-width: 400px) {
   h1 {
     font-size: 22px;
   }
@@ -164,18 +220,12 @@ p a:hover {
     padding: 12px;
     font-size: 15px;
   }
-  
-  .input-box input {
-    padding: 12px 40px 12px 15px;
-  }
 }
 
-@media (max-width: 400px) {
-  h1 {
-    font-size: 20px;
-  }
-  .btn {
-    padding: 10px;
-    font-size: 14px;
-  }
+/* Floating Bubbles (Optional, currently disabled) */
+.bubble {
+  display: none;
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.2;
 }
