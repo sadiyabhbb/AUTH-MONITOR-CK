@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-/* =====================================
-   🎨 Color Palette & Variables
-   ===================================== */
+/* ==========================
+   🎨 Color Variables
+   ========================== */
 :root {
   --primary-color: #6a11cb;
   --secondary-color: #2575fc;
@@ -11,12 +11,12 @@
   --bg-dark: #0f0c29;
   --bg-medium: #3a3b5c;
   --input-bg: #1f1f3a;
-  --shadow-color: rgba(0, 0, 0, 0.5);
+  --shadow-color: rgba(0,0,0,0.5);
 }
 
-/* =====================================
-   📦 Global Styles & Reset
-   ===================================== */
+/* ==========================
+   📦 Reset & Body
+   ========================== */
 * {
   margin: 0;
   padding: 0;
@@ -31,15 +31,15 @@ body {
   align-items: center;
   background: linear-gradient(135deg, var(--bg-dark), var(--bg-medium));
   color: var(--text-color);
-  overflow: hidden;
   position: relative;
+  overflow: hidden;
 }
 
-/* =====================================
+/* ==========================
    🗂️ Form Container
-   ===================================== */
+   ========================== */
 .form-container {
-  background: rgba(25, 25, 40, 0.95);
+  background: rgba(25,25,40,0.95);
   padding: 40px 35px;
   border-radius: 20px;
   box-shadow: 0 15px 40px var(--shadow-color);
@@ -47,30 +47,23 @@ body {
   max-width: 400px;
   text-align: center;
   position: relative;
-  z-index: 2;
   transition: all 0.4s ease-in-out;
-  border: 1px solid rgba(255,255,255,0.2);
 }
 
-.form-container:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-}
-
-/* =====================================
+/* ==========================
    ✍️ Headings
-   ===================================== */
+   ========================== */
 h1 {
   margin-bottom: 25px;
   font-weight: 700;
-  color: var(--text-color);
   font-size: 28px;
   letter-spacing: 1px;
+  color: var(--text-color);
 }
 
-/* =====================================
-   📥 Input Boxes & Icons
-   ===================================== */
+/* ==========================
+   📥 Input Boxes
+   ========================== */
 .input-box {
   position: relative;
   margin: 18px 0;
@@ -94,18 +87,9 @@ h1 {
   box-shadow: 0 0 10px rgba(37,117,252,0.3);
 }
 
-.input-box i {
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 20px;
-  color: var(--subtle-text-color);
-}
-
-/* =====================================
+/* ==========================
    🚀 Buttons
-   ===================================== */
+   ========================== */
 .btn {
   width: 100%;
   padding: 14px;
@@ -125,9 +109,9 @@ h1 {
   box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
 
-/* =====================================
+/* ==========================
    📝 Paragraphs & Links
-   ===================================== */
+   ========================== */
 p {
   margin-top: 15px;
   font-size: 14px;
@@ -144,72 +128,39 @@ p a:hover {
   color: var(--secondary-color);
 }
 
-/* =====================================
-   💬 Message Box (Dark Form Style)
-   ===================================== */
-.msg {
-  min-width: 150px;
-  max-width: 300px;
-  padding: 14px 25px;
-  border-radius: 16px;
-  font-weight: 600;
-  font-size: 14px;
-  text-align: center;
+/* ==========================
+   🌐 Responsive
+   ========================== */
+@media (max-width:600px){
+  .form-container { width:95%; padding:30px 25px; }
+  h1{ font-size:24px; }
+  .btn{ padding:12px; font-size:16px; }
+  .input-box input{ padding:12px 45px 12px 15px; }
+}
+
+@media(max-width:400px){
+  h1{ font-size:22px; }
+  .btn{ padding:10px; font-size:14px; }
+}
+
+/* ==========================
+   💬 Floating Text Message (Top)
+   ========================== */
+.floating-msg {
   position: fixed;
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-  opacity: 1;
-  z-index: 9999;
-  transition: all 0.4s ease;
-  background: rgba(25,25,40,0.95);
-  border: 1px solid rgba(255,255,255,0.2);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
   color: #fff;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.msg.success {
-  background: linear-gradient(135deg, #1b3a1b, #2a5a2a);
-  color: #a0ffa0;
-  border: 1px solid #3a6b3a;
-}
-
-.msg.error {
-  background: linear-gradient(135deg, #3a1b1b, #5a2a2a);
-  color: #ff7f7f;
-  border: 1px solid #6b3a3a;
-}
-
-/* =====================================
-   🌐 Responsive
-   ===================================== */
-@media (max-width: 600px) {
-  .form-container {
-    width: 95%;
-    padding: 30px 25px;
-  }
-  
-  h1 {
-    font-size: 24px;
-  }
-  
-  .btn {
-    padding: 12px;
-    font-size: 16px;
-  }
-
-  .input-box input {
-    padding: 12px 45px 12px 15px;
-  }
-}
-
-@media (max-width: 400px) {
-  h1 {
-    font-size: 22px;
-  }
-
-  .btn {
-    padding: 10px;
-    font-size: 14px;
-  }
-}
+.floating-msg.success { background-color: #28a745; }
+.floating-msg.error   { background-color: #dc3545; }
