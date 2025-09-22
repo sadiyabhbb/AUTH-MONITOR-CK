@@ -1,18 +1,24 @@
-// ================= Show sliding message =================
-function showMessage(text, type='success', duration=3000){
-  let msgBox = document.getElementById('msgBox');
-  if(!msgBox){
-    msgBox = document.createElement('div');
-    msgBox.id = 'msgBox';
-    msgBox.className = 'msg';
-    document.body.appendChild(msgBox);
-  }
-  msgBox.textContent = text;
-  msgBox.className = 'msg ' + (type==='success' ? 'success' : 'error');
-  msgBox.style.opacity = '1';
+// ================= Show floating text message =================
+function showMessage(text, type='success', duration=2000){
+  const msg = document.createElement('div');
+  msg.className = 'floating-msg ' + (type==='success' ? 'success' : 'error');
+  msg.textContent = text;
+  document.body.appendChild(msg);
 
-  setTimeout(()=>{ msgBox.style.opacity='0'; }, duration);
-  setTimeout(()=>{ msgBox.remove(); }, duration+500);
+  // Show
+  requestAnimationFrame(()=>{ 
+    msg.style.opacity = '1';
+    msg.style.transform = 'translateX(-50%) translateY(0)';
+  });
+
+  // Hide after duration
+  setTimeout(()=>{
+    msg.style.opacity = '0';
+    msg.style.transform = 'translateX(-50%) translateY(-20px)';
+  }, duration);
+
+  // Remove from DOM
+  setTimeout(()=> msg.remove(), duration + 300);
 }
 
 // ================= Login =================
@@ -29,7 +35,7 @@ if(loginForm){
       });
       const json = await res.json();
       if(json.success){
-        showMessage('Login successful! Redirecting...', 'success');
+        showMessage('Login successful!', 'success');
         setTimeout(()=> window.location.href="/dashboard", 800);
       } else showMessage(json.error || "Login failed", 'error');
     } catch(err){ 
