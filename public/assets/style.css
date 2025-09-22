@@ -49,6 +49,12 @@ body {
   position: relative;
   z-index: 2;
   transition: all 0.4s ease-in-out;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.form-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
 }
 
 /* =====================================
@@ -142,36 +148,34 @@ p a:hover {
    💬 Message Box (Dark Form Style)
    ===================================== */
 .msg {
-  min-width: 150px;       /* compact width */
+  min-width: 150px;
   max-width: 300px;
-  padding: 14px 25px;      /* form-style padding */
-  border-radius: 16px;    /* match form radius */
+  padding: 14px 25px;
+  border-radius: 16px;
   font-weight: 600;
-  font-size: 14px;        /* slightly bigger */
+  font-size: 14px;
   text-align: center;
   position: fixed;
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.4); /* deeper shadow like form */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
   opacity: 1;
   z-index: 9999;
   transition: all 0.4s ease;
-  background: rgba(25,25,40,0.95); /* match form background */
-  border: 1px solid rgba(255,255,255,0.2); /* subtle border like form */
-  color: #fff; /* default text white */
+  background: rgba(25,25,40,0.95);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
 }
 
-/* Success Message */
 .msg.success {
-  background: linear-gradient(135deg, #1b3a1b, #2a5a2a); /* greenish gradient */
-  color: #a0ffa0; 
+  background: linear-gradient(135deg, #1b3a1b, #2a5a2a);
+  color: #a0ffa0;
   border: 1px solid #3a6b3a;
 }
 
-/* Error Message */
 .msg.error {
-  background: linear-gradient(135deg, #3a1b1b, #5a2a2a); /* reddish gradient */
+  background: linear-gradient(135deg, #3a1b1b, #5a2a2a);
   color: #ff7f7f;
   border: 1px solid #6b3a3a;
 }
