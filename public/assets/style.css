@@ -139,34 +139,41 @@ p a:hover {
 }
 
 /* =====================================
-   💬 Message Box
+   💬 Message Box (Updated Stylish)
    ===================================== */
 .msg {
   width: auto;
-  padding: 12px 20px;
-  border-radius: 12px;
+  padding: 14px 22px;
+  border-radius: 16px;
   font-weight: 600;
   text-align: center;
   position: fixed;
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
   opacity: 1;
   z-index: 999;
   transition: all 0.4s ease;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  pointer-events: none;
 }
 
+/* Success Message */
 .msg.success {
-  background: #e6ffec;
-  color: #00600a;
-  border: 1px solid #72a981;
+  background: linear-gradient(90deg, #43e97b, #38f9d7);
+  color: #fff;
+  border: none;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 
+/* Error Message */
 .msg.error {
-  background: #ffebeb;
-  color: #c0392b;
-  border: 1px solid #e74c3c;
+  background: linear-gradient(90deg, #ff5f6d, #ffc371);
+  color: #fff;
+  border: none;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 
 /* =====================================
