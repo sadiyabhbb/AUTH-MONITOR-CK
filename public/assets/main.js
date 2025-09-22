@@ -1,45 +1,27 @@
-// ================= Floating Bubbles =================
-const body = document.body;
-
-for (let i = 0; i < 15; i++) {
-  const bubble = document.createElement('div');
-  bubble.classList.add('bubble');
-  
-  // Random size
-  const size = Math.random() * 50 + 20; 
-  bubble.style.width = `${size}px`;
-  bubble.style.height = `${size}px`;
-  
-  // Random position
-  bubble.style.left = `${Math.random() * 100}%`;
-  bubble.style.top = `${Math.random() * 100}%`;
-
-  // Random color
-  const colors = ['#FF6B6B', '#FFD93D', '#6BCB77', '#4D96FF', '#9D4EDD'];
-  bubble.style.background = colors[Math.floor(Math.random() * colors.length)];
-
-  // Random animation duration
-  bubble.style.animationDuration = `${Math.random() * 10 + 5}s`;
-  bubble.style.animationDelay = `${Math.random() * 5}s`;
-
-  body.appendChild(bubble);
-}
-
 // ================= Show sliding message =================
 function showMessage(text, type='success', duration=3000){
-  let msgBox = document.getElementById('msgBox');
-  if(!msgBox){
-    msgBox = document.createElement('div');
-    msgBox.id = 'msgBox';
-    msgBox.className = 'msg';
-    document.body.appendChild(msgBox);
-  }
-  msgBox.textContent = text;
+  const msgBox = document.createElement('div');
   msgBox.className = 'msg ' + (type==='success' ? 'success' : 'error');
-  msgBox.style.opacity = '1';
+  msgBox.textContent = text;
 
-  setTimeout(()=>{ msgBox.style.opacity='0'; }, duration);
-  setTimeout(()=>{ msgBox.remove(); }, duration+500);
+  // Add to body
+  document.body.appendChild(msgBox);
+
+  // Animate in
+  msgBox.style.opacity = '0';
+  msgBox.style.transform = 'translateX(-50%) translateY(-20px)';
+  setTimeout(()=>{
+    msgBox.style.transition = 'all 0.4s ease';
+    msgBox.style.opacity = '1';
+    msgBox.style.transform = 'translateX(-50%) translateY(0)';
+  }, 10);
+
+  // Animate out & remove
+  setTimeout(()=>{
+    msgBox.style.opacity = '0';
+    msgBox.style.transform = 'translateX(-50%) translateY(-20px)';
+    setTimeout(()=> msgBox.remove(), 400);
+  }, duration);
 }
 
 // ================= Login =================
