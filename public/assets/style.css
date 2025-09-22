@@ -6,12 +6,12 @@
 :root {
   --primary-color: #6a11cb;
   --secondary-color: #2575fc;
-  --text-color: #222;
-  --subtle-text-color: #666;
+  --text-color: #f5f5f5;
+  --subtle-text-color: #ccc;
   --bg-dark: #0f0c29;
-  --bg-medium: #3a3b5c;
-  --input-bg: #eef2f5;
-  --shadow-color: rgba(0, 0, 0, 0.2);
+  --bg-medium: #302b63;
+  --input-bg: rgba(255, 255, 255, 0.08);
+  --shadow-color: rgba(0, 0, 0, 0.4);
 }
 
 /* =====================================
@@ -36,35 +36,43 @@ body {
 }
 
 /* =====================================
-   🗂️ Form Container & Card Effect (Upgraded)
+   🗂️ Premium Dark Glassmorphic Box
    ===================================== */
 .form-container {
-  background: rgba(255, 255, 255, 0.95); /* light clean */
+  background: rgba(20, 20, 40, 0.85);
   padding: 45px 40px;
-  border-radius: 28px;
+  border-radius: 22px;
   width: 90%;
   max-width: 420px;
   text-align: center;
   position: relative;
   z-index: 2;
 
-  /* Premium shadow */
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15),
-              0 20px 40px rgba(0, 0, 0, 0.08);
-
-  /* Smooth border with subtle gradient */
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  /* Glass effect with gradient border */
+  border: 2px solid transparent;
   background-clip: padding-box;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(12px);
 
-  transition: all 0.4s ease-in-out;
+  /* Gradient border trick */
+  box-shadow: 0 15px 40px var(--shadow-color);
+}
+
+.form-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
 }
 
 .form-container:hover {
   transform: translateY(-6px) scale(1.01);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2),
-              0 25px 50px rgba(0, 0, 0, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
 }
 
 /* =====================================
@@ -73,10 +81,10 @@ body {
 h1 {
   margin-bottom: 25px;
   font-weight: 700;
-  color: var(--text-color);
+  color: #fff;
   letter-spacing: 1.2px;
   font-size: 28px;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
 }
 
 /* =====================================
@@ -91,18 +99,18 @@ h1 {
   width: 100%;
   padding: 16px 50px 16px 20px;
   border-radius: 12px;
-  border: 2px solid transparent;
+  border: 2px solid rgba(255, 255, 255, 0.15);
   outline: none;
   font-size: 16px;
   background: var(--input-bg);
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  color: var(--text-color);
+  color: #fff;
+  transition: all 0.4s ease;
 }
 
 .input-box input:focus {
   border-color: var(--secondary-color);
-  box-shadow: 0 0 15px rgba(37, 117, 252, 0.2);
-  background: #fff;
+  box-shadow: 0 0 12px rgba(37, 117, 252, 0.4);
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .input-box i {
@@ -133,7 +141,7 @@ h1 {
   font-weight: 700;
   border-radius: 12px;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.4s ease;
   letter-spacing: 0.8px;
   text-transform: uppercase;
 }
@@ -141,7 +149,7 @@ h1 {
 .btn:hover {
   background: linear-gradient(45deg, #7b21e8, #3b88fd);
   transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
 }
 
 /* =====================================
@@ -179,22 +187,22 @@ p a:hover {
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
   opacity: 1;
   z-index: 999;
   transition: all 0.4s ease;
 }
 
 .msg.success {
-  background: #e6ffec;
-  color: #00600a;
-  border: 1px solid #72a981;
+  background: #1e3d32;
+  color: #2ecc71;
+  border: 1px solid #27ae60;
 }
 
 .msg.error {
-  background: #ffebeb;
-  color: #c0392b;
-  border: 1px solid #e74c3c;
+  background: #3d1e1e;
+  color: #e74c3c;
+  border: 1px solid #c0392b;
 }
 
 /* =====================================
