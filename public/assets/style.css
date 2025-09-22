@@ -139,41 +139,38 @@ p a:hover {
 }
 
 /* =====================================
-   💬 Message Box (Updated Stylish)
+   💬 Message Box (Compact & Dark)
    ===================================== */
 .msg {
-  width: auto;
-  padding: 14px 22px;
-  border-radius: 16px;
-  font-weight: 600;
+  min-width: 150px;       /* compact width */
+  max-width: 300px;
+  padding: 8px 16px;      /* smaller padding */
+  border-radius: 10px;    /* smooth rounded corners */
+  font-weight: 500;
+  font-size: 13px;        /* smaller font */
   text-align: center;
   position: fixed;
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
   opacity: 1;
-  z-index: 999;
-  transition: all 0.4s ease;
-  font-size: 15px;
-  letter-spacing: 0.5px;
-  pointer-events: none;
+  z-index: 9999;
+  transition: all 0.3s ease;
 }
 
 /* Success Message */
 .msg.success {
-  background: linear-gradient(90deg, #43e97b, #38f9d7);
-  color: #fff;
-  border: none;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  background-color: #1b3a1b; /* dark green */
+  color: #a0ffa0;             /* light green text */
+  border: 1px solid #3a6b3a;
 }
 
 /* Error Message */
 .msg.error {
-  background: linear-gradient(90deg, #ff5f6d, #ffc371);
-  color: #fff;
-  border: none;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  background-color: #3a1b1b; /* dark red */
+  color: #ff7f7f;            /* light red text */
+  border: 1px solid #6b3a3a;
 }
 
 /* =====================================
@@ -208,9 +205,4 @@ p a:hover {
     padding: 10px;
     font-size: 14px;
   }
-}
-
-/* Floating Bubbles */
-.bubble {
-  display: none; /* off */
 }
