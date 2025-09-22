@@ -62,7 +62,7 @@ h1 {
 }
 
 /* ==========================
-   📥 Input Boxes (Updated)
+   📥 Input Boxes (Updated & Responsive)
    ========================== */
 .input-box {
   position: relative;
@@ -73,8 +73,7 @@ h1 {
 
 .input-box input {
   width: 100%;
-  /* padding-left এর মান কমানো হয়েছে যাতে টেক্সট আইকনের কাছাকাছি শুরু হয় */
-  padding: 14px 18px 14px 35px; 
+  padding: 14px 18px 14px 40px; /* left padding for icon */
   border-radius: 12px;
   border: 2px solid transparent;
   outline: none;
@@ -92,11 +91,13 @@ h1 {
 
 .input-box .icon {
   position: absolute;
-  /* left এর মান কমানো হয়েছে যাতে আইকন আরও ডানদিকে আসে */
-  left: 10px;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
   color: var(--subtle-text-color);
   pointer-events: none;
   z-index: 10;
+  font-size: 18px;
 }
 
 /* ==========================
@@ -141,23 +142,21 @@ p a:hover {
 }
 
 /* ==========================
-   🌐 Responsive (Updated)
+   🌐 Responsive Adjustments
    ========================== */
 @media (max-width:600px){
   .form-container { width:95%; padding:30px 25px; }
   h1{ font-size:24px; }
   .btn{ padding:12px; font-size:16px; }
-  /* বামদিকের প্যাডিং এবং আইকনের অবস্থান ঠিক করা হয়েছে */
-  .input-box input{ padding:12px 15px 12px 35px; }
-  .input-box .icon { left: 10px; }
+  .input-box input{ padding:12px 15px 12px 38px; }
+  .input-box .icon { left: 10px; font-size:17px; }
 }
 
 @media(max-width:400px){
   h1{ font-size:22px; }
   .btn{ padding:10px; font-size:14px; }
-  /* বামদিকের প্যাডিং এবং আইকনের অবস্থান ঠিক করা হয়েছে */
-  .input-box input{ padding:12px 15px 12px 30px; }
-  .input-box .icon { left: 8px; }
+  .input-box input{ padding:12px 15px 12px 35px; }
+  .input-box .icon { left: 8px; font-size:16px; }
 }
 
 /* ==========================
